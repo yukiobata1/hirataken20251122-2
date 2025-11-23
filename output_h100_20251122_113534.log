@@ -1,0 +1,4 @@
+[1763811334.946023] [192-222-52-119:39742:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
+[1763811334.978557] [192-222-52-119:39742:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
+LAMMPS (22 Jul 2025 - Update 2)
+ERROR: Cannot use -kokkos on without KOKKOS installed (src/lammps.cpp:706)
