@@ -103,8 +103,8 @@ def create_egain_structure(n_atoms=1000, x_In=0.142, T=150.0, output_file='initi
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Create initial structure for EGaIn alloy')
-    parser.add_argument('-n', '--natoms', type=int, default=1000,
-                        help='Total number of atoms (default: 1000)')
+    parser.add_argument('-n', '--natoms', type=int, default=20000,
+                        help='Total number of atoms (default: 20000, optimized for H100 GPU)')
     parser.add_argument('-x', '--xIn', type=float, default=0.142,
                         help='Mole fraction of In (default: 0.142 for eutectic)')
     parser.add_argument('-T', '--temperature', type=float, default=150.0,
