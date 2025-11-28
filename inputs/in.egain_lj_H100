@@ -40,6 +40,12 @@ velocity        all create 423.15 12345 dist gaussian
 thermo          1000
 thermo_style    custom step temp pe ke etotal press vol density cpu
 
+# ========== Minimization (CRITICAL for random initial structure) ==========
+print "========== Energy Minimization =========="
+# Minimize to remove overlapping atoms and bad geometry
+minimize        1.0e-4 1.0e-6 10000 100000
+reset_timestep  0
+
 # ========== RDF computation ==========
 # Compute total and partial pair distribution functions
 compute         myrdf all rdf 200 1 1 1 2 2 2 cutoff 12.0
