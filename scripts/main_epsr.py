@@ -133,19 +133,80 @@ def run_lammps(input_file, log_file='lammps.log', use_gpu=True, gpu_id=0):
         env = None
         print(f"Running LAMMPS (CPU only) with input: {input_file}")
 
-    result = subprocess.run(
+    print(f"  Command: {' '.join(cmd)}")
+    print(f"  Log file: {log_file}")
+
+    # Use Popen to show real-time progress from log file
+    import time
+    start_time = time.time()
+
+    process = subprocess.Popen(
         cmd,
-        capture_output=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
         env=env
     )
 
-    if result.returncode != 0:
-        print(f"LAMMPS STDOUT:\n{result.stdout}")
-        print(f"LAMMPS STDERR:\n{result.stderr}")
-        raise RuntimeError(f"LAMMPS failed with return code {result.returncode}")
+    # Monitor log file for thermo output
+    last_size = 0
+    total_steps = 70000  # 5000 + 15000 + 50000 from input file
+    header_printed = False
+    current_phase = ""
 
-    print("LAMMPS completed successfully")
+    while process.poll() is None:
+        time.sleep(0.5)
+
+        # Check if log file exists and has new content
+        if os.path.exists(log_file):
+            try:
+                with open(log_file, 'r') as f:
+                    f.seek(last_size)
+                    new_content = f.read()
+                    last_size = f.tell()
+
+                    for line in new_content.split('\n'):
+                        # Detect phase changes
+                        if "Energy Minimization" in line:
+                            current_phase = "Minimization"
+                            print(f"\n  [{current_phase}]")
+                        elif "Equilibration" in line:
+                            current_phase = "Equilibration"
+                            print(f"\n  [{current_phase}] (20,000 steps)")
+                        elif "Production run" in line:
+                            current_phase = "Production"
+                            print(f"\n  [{current_phase}] (50,000 steps)")
+
+                        # Print thermo header
+                        if line.strip().startswith("Step ") and not header_printed:
+                            print(f"  {line.strip()}")
+                            header_printed = True
+
+                        # Print thermo data lines (start with step number)
+                        parts = line.split()
+                        if len(parts) >= 8:
+                            try:
+                                step = int(parts[0])
+                                temp = float(parts[1])
+                                pe = float(parts[2])
+                                # Format: Step, Temp, PE, KE, Etotal, Press, Vol, Density, CPU
+                                elapsed = time.time() - start_time
+                                print(f"  Step {step:>6} | T={temp:>7.2f}K | PE={pe:>12.1f} | "
+                                      f"elapsed: {elapsed:>6.1f}s", flush=True)
+                            except (ValueError, IndexError):
+                                pass
+            except Exception:
+                pass
+
+    stdout, stderr = process.communicate()
+    elapsed_time = time.time() - start_time
+
+    if process.returncode != 0:
+        print(f"\nLAMMPS STDOUT:\n{stdout}")
+        print(f"LAMMPS STDERR:\n{stderr}")
+        raise RuntimeError(f"LAMMPS failed with return code {process.returncode}")
+
+    print(f"\n  LAMMPS completed (total elapsed: {elapsed_time:.1f}s)")
 
 
 def plot_results(r_exp, g_exp, r_sim, g_sim, r_grid, U_ep_GaGa, U_ep_InIn, U_ep_GaIn,
