@@ -364,13 +364,25 @@ def main():
 
     print(f"\nFinal results saved to outputs/final_ep.npz")
     print(f"Total iterations: {len(chi2_history)}")
-    print(f"Final χ²: {chi2_history[-1]:.6f}")
 
-    # Final plot
-    r_sim, g_sim_total, _, _, _ = read_lammps_rdf(rdf_output)
-    plot_results(r_exp, g_exp, r_sim, g_sim_total, r_grid,
-                 U_ep_GaGa, U_ep_InIn, U_ep_GaIn, chi2_history, len(chi2_history),
-                 output_file='outputs/epsr_final.png')
+    if len(chi2_history) > 0:
+        print(f"Final χ²: {chi2_history[-1]:.6f}")
+
+        # Final plot
+        if os.path.exists(rdf_output):
+            r_sim, g_sim_total, _, _, _ = read_lammps_rdf(rdf_output)
+            plot_results(r_exp, g_exp, r_sim, g_sim_total, r_grid,
+                         U_ep_GaGa, U_ep_InIn, U_ep_GaIn, chi2_history, len(chi2_history),
+                         output_file='outputs/epsr_final.png')
+        else:
+            print(f"Warning: RDF output file not found: {rdf_output}")
+    else:
+        print("\nWarning: No iterations completed successfully.")
+        print("Possible causes:")
+        print("  - LAMMPS execution failed")
+        print("  - RDF output file was not generated")
+        print("  - Check LAMMPS input files and data files")
+        print("  - Review LAMMPS log files on the cloud instance")
 
 
 if __name__ == '__main__':
