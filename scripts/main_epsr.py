@@ -120,18 +120,24 @@ def run_lammps(input_file, log_file='lammps.log', use_gpu=True, gpu_id=0):
         # KOKKOS command for H100 GPU
         # -k on g 1 : Enable Kokkos, use 1 GPU
         # -sf kk : Apply Kokkos suffix to supported pair styles
-        cmd = ['lmp', '-k', 'on', 'g', str(gpu_id), '-sf', 'kk',
+        cmd = ['lmp', '-k', 'on', 'g', '1', '-sf', 'kk',
                '-in', input_file, '-log', log_file]
         print(f"Running LAMMPS with Kokkos/H100 GPU {gpu_id}: {input_file}")
+
+        # Set environment variable to select specific GPU
+        env = os.environ.copy()
+        env['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
     else:
         # CPU-only mode
         cmd = ['lmp', '-in', input_file, '-log', log_file]
+        env = None
         print(f"Running LAMMPS (CPU only) with input: {input_file}")
 
     result = subprocess.run(
         cmd,
         capture_output=True,
-        text=True
+        text=True,
+        env=env
     )
 
     if result.returncode != 0:
