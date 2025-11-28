@@ -4,9 +4,6 @@
 
 set -e  # Exit on error
 
-PROJECT_DIR="/home/yuki/lammps_settings_obata/hirataken20251122-2"
-cd "$PROJECT_DIR"
-
 echo "================================================"
 echo "  EPSR for EGaIn with H100 GPU Acceleration"
 echo "================================================"
