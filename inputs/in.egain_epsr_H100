@@ -16,8 +16,11 @@ boundary        p p p
 
 # ========== Read structure ==========
 # Check if restart file exists for faster equilibration
-variable        restart_exists file outputs/restart.0.data
-if              "${restart_exists} > 0" then &
+shell           mkdir -p outputs
+shell           if [ -f outputs/restart.0.data ]; then echo "1" > outputs/.restart_flag; else echo "0" > outputs/.restart_flag; fi
+variable        restart_val file outputs/.restart_flag
+
+if              "${restart_val} > 0.5" then &
                 "read_restart outputs/restart.0.data" &
 else &
                 "read_data inputs/initial_structure.data"
@@ -47,7 +50,7 @@ neighbor        2.0 bin
 neigh_modify    delay 0 every 1 check yes binsize 4.0
 
 # ========== Initial velocity (if not from restart) ==========
-if              "${restart_exists} == 0" then &
+if              "${restart_val} < 0.5" then &
                 "velocity all create 423.15 12345 dist gaussian"
 
 # ========== Thermodynamic output ==========
@@ -55,7 +58,7 @@ thermo          1000
 thermo_style    custom step temp pe ke etotal press vol density cpu
 
 # ========== Minimization (only if not from restart) ==========
-if              "${restart_exists} == 0" then &
+if              "${restart_val} < 0.5" then &
                 "print '========== Energy Minimization =========='" &
                 "minimize 1.0e-4 1.0e-6 10000 100000" &
                 "reset_timestep 0"
@@ -76,7 +79,7 @@ timestep        0.5
 # Shorter equilibration if reading from restart
 fix             nvt all nvt temp 423.15 423.15 100.0
 
-if              "${restart_exists} > 0" then &
+if              "${restart_val} > 0.5" then &
                 "run 5000" &
 else &
                 "run 10000"
@@ -88,7 +91,7 @@ timestep        2.0
 
 fix             nvt all nvt temp 423.15 423.15 100.0
 
-if              "${restart_exists} > 0" then &
+if              "${restart_val} > 0.5" then &
                 "run 15000" &
 else &
                 "run 40000"
