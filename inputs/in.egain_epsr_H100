@@ -16,9 +16,9 @@ boundary        p p p
 
 # ========== Read structure ==========
 # Check if restart file exists for faster equilibration
-variable        restart_exists file outputs/restart.*.data
+variable        restart_exists file outputs/restart.0.data
 if              "${restart_exists} > 0" then &
-                "read_restart outputs/restart.*.data" &
+                "read_restart outputs/restart.0.data" &
 else &
                 "read_data inputs/initial_structure.data"
 
