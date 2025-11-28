@@ -1,0 +1,25 @@
+LAMMPS (22 Jul 2025 - Update 2)
+KOKKOS mode with Kokkos version 4.6.2 is enabled
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+package kokkos
+# H100 GPU-Optimized LAMMPS input for EPSR simulation of EGaIn eutectic alloy
+# Composition: Ga0.858In0.142
+# Temperature: 150°C (423.15 K)
+# Potential: LJ + Empirical Potential (table)
+# GPU: Using KOKKOS for H100 (Hopper architecture)
+
+# ========== KOKKOS Initialization (CRITICAL: Must be first) ==========
+# CRITICAL FIX: newton off prevents KOKKOS errors on H100
+# Note: pair_style table does not have /kk support, but will run on CPU while LJ runs on GPU
+package         kokkos neigh full newton off
+
+# ========== Initialization ==========
+units           real
+atom_style      atomic
+boundary        p p p
+
+# ========== Read structure ==========
+# Check if restart file exists for faster equilibration
+variable        restart_exists file outputs/restart.0.data
+ERROR on proc 0: Cannot open file variable restart_exists file outputs/restart.0.data: No such file or directory (src/variable.cpp:5705)
