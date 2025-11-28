@@ -91,10 +91,10 @@ gpu_id = 0              # Select GPU (if multiple)
 
 ```bash
 # LJ test
-lmp -k on g 0 -sf kk -in inputs/in.egain_lj_H100
+lmp -k on g 1 -sf kk -in inputs/in.egain_lj_H100
 
 # EPSR (single iteration)
-lmp -k on g 0 -sf kk -in inputs/in.egain_epsr_H100
+lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100
 ```
 
 ### CPU Mode (No GPU)

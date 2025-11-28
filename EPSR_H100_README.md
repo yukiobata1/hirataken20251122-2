@@ -56,11 +56,11 @@ The simulation is optimized for H100 with:
 
 The script automatically runs LAMMPS with:
 ```bash
-lmp -k on g 0 -sf kk -in inputs/in.egain_epsr_H100
+lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100
 ```
 
 Flags explained:
-- `-k on g 0`: Enable Kokkos, use GPU 0
+- `-k on g 1`: Enable Kokkos, use 1 GPU
 - `-sf kk`: Apply Kokkos suffix to supported pair styles
 - LJ potential automatically uses `lj/cut/kk` (GPU)
 - Table potential remains on CPU (no /kk version available)
@@ -212,7 +212,7 @@ gpu_id = 1  # Or 0, 1, 2, ... for multi-GPU systems
 Run benchmark:
 ```bash
 # Time LJ simulation
-time lmp -k on g 0 -sf kk -in inputs/in.egain_lj_H100 -log outputs/bench_gpu.log
+time lmp -k on g 1 -sf kk -in inputs/in.egain_lj_H100 -log outputs/bench_gpu.log
 
 # Compare with CPU
 time lmp -in inputs/in.egain_lj -log outputs/bench_cpu.log
@@ -258,7 +258,7 @@ For issues specific to:
 
 1. Added `package kokkos` directive (CRITICAL: `newton off`)
 2. Input files: `in.egain_*_H100` variants
-3. Execution: `lmp -k on g 0 -sf kk` instead of just `lmp`
+3. Execution: `lmp -k on g 1 -sf kk` instead of just `lmp`
 4. LJ potential: Auto-converted to `lj/cut/kk`
 5. Table potential: Remains CPU (no Kokkos version)
 6. Performance: ~8-10x faster for full EPSR workflow

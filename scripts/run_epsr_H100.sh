@@ -74,7 +74,7 @@ echo ""
 if [ "$1" == "--test-lj" ]; then
     echo "🧪 Test mode: Running LJ-only simulation first"
     echo ""
-    lmp -k on g 0 -sf kk -in inputs/in.egain_lj_H100 -log outputs/test_lj_H100.log
+    lmp -k on g 1 -sf kk -in inputs/in.egain_lj_H100 -log outputs/test_lj_H100.log
     echo ""
     echo "✅ Test simulation completed. Check outputs/test_lj_H100.log"
     echo "   RDF saved to rdf.dat - compare with data/g_exp.dat"
