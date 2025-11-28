@@ -1,0 +1,11 @@
+[project]
+name = "hirataken20251122-2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "freud-analysis>=3.4.0",
+    "matplotlib>=3.10.7",
+    "mdanalysis>=2.10.0",
+]

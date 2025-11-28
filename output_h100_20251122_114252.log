@@ -1,9 +1,0 @@
-[1763811773.028288] [192-222-52-119:82114:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
-[1763811773.060149] [192-222-52-119:82114:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
-LAMMPS (22 Jul 2025 - Update 2)
-KOKKOS mode with Kokkos version 4.6.2 is enabled
-  will use up to 1 GPU(s) per node
-  using 1 OpenMP thread(s) per MPI task
-ERROR: Set command before simulation box is defined
-For more information see https://docs.lammps.org/Errors_details.html (src/set.cpp:85)
-Last input line: set -e

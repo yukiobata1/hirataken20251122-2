@@ -1,2 +1,45 @@
+# LAMMPS related
 lammps/
 
+# Output files
+outputs/*.lammpstrj
+outputs/*.data
+outputs/*.restart
+
+# Log files
+logs/*.log
+
+# Analysis data (large files)
+analysis/*.dat
+
+# Figures (can be regenerated)
+figures/*.png
+figures/*.jpg
+figures/*.pdf
+
+# Converted files
+converted/*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
