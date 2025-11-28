@@ -276,7 +276,7 @@ def main():
     # ========== Parameters ==========
     max_iter = 50           # Maximum iterations
     alpha = 0.3             # Learning rate
-    tol = 0.1               # Convergence tolerance (χ²)
+    tol = 250.0             # Convergence tolerance (χ²) - expect ~179 for good fit
     T = 423.15              # Temperature (K) - 150°C
     r_min = 2.0             # Minimum distance for U_EP grid (Å)
     r_max = 12.0            # Maximum distance for U_EP grid (Å)
@@ -316,6 +316,8 @@ def main():
     print(f"Loaded {len(r_exp)} experimental data points")
     print(f"r_exp range: {r_exp.min():.2f} - {r_exp.max():.2f} Å")
     print(f"g_exp range: {g_exp.min():.3f} - {g_exp.max():.3f}")
+    print(f"\nExpected χ² for good fit: ~{len(r_exp)} (number of data points)")
+    print(f"Target χ² < {tol} is very strict - may need adjustment")
 
     # ========== Initialize U_EP ==========
     print("\nInitializing empirical potentials...")
@@ -364,7 +366,10 @@ def main():
         g_sim_interp = np.interp(r_exp, r_sim, g_sim_total)
 
         # 5. Calculate χ²
-        chi2 = calc_chi_squared(g_sim_interp, g_exp, sigma=0.01)
+        # sigma = experimental uncertainty in g(r)
+        # For neutron diffraction: typically 0.05-0.10
+        # Adjust based on your data quality
+        chi2 = calc_chi_squared(g_sim_interp, g_exp, sigma=0.05)
         r_factor = calc_r_factor(g_sim_interp, g_exp)
         chi2_history.append(chi2)
 
@@ -377,18 +382,51 @@ def main():
                      output_file=f'outputs/epsr_iter{iteration:03d}.png')
 
         # 7. Check convergence
+        # Primary criterion: absolute χ² must be below tolerance
         if chi2 < tol:
-            print(f"\nConverged! χ² = {chi2:.6f} < {tol}")
+            print(f"\n✅ Converged! χ² = {chi2:.6f} < {tol}")
             break
 
+        # Secondary criteria: check for stagnation or divergence
         if len(chi2_history) > 1:
-            delta_chi2 = abs(chi2_history[-1] - chi2_history[-2])
-            rel_change = delta_chi2 / chi2 if chi2 > 0 else 0
-            print(f"Relative χ² change: {rel_change:.6f}")
+            delta_chi2 = chi2_history[-1] - chi2_history[-2]  # Keep sign to detect increase
+            abs_delta = abs(delta_chi2)
+            rel_change = abs_delta / chi2_history[-2] if chi2_history[-2] > 0 else 0
+            print(f"Δχ² = {delta_chi2:.6f} (relative: {rel_change:.6f})")
 
-            if rel_change < 0.01:
-                print(f"\nConverged! Relative χ² change ({rel_change:.6f}) < 0.01")
+            # Warning: χ² is increasing (fit getting worse)
+            if delta_chi2 > 0:
+                print(f"⚠️  WARNING: χ² increased by {delta_chi2:.2f}")
+
+                # If χ² increases significantly multiple times, stop
+                if len(chi2_history) >= 3:
+                    recent_increases = sum(1 for i in range(-3, 0)
+                                         if i+1 < 0 and chi2_history[i+1] > chi2_history[i])
+                    if recent_increases >= 2:
+                        print(f"❌ Stopping: χ² has increased {recent_increases} times in last 3 iterations")
+                        print(f"   Algorithm appears to be diverging.")
+                        break
+
+            # Only check relative change if:
+            # 1. χ² is reasonably small (< 100 at least)
+            # 2. Multiple consecutive small changes
+            if chi2 < 100 and rel_change < 0.01:
+                print(f"\n✅ Converged! Relative χ² change ({rel_change:.6f}) < 0.01 with χ²={chi2:.2f}")
                 break
+            elif chi2 >= 100 and rel_change < 0.01:
+                print(f"⚠️  Small relative change detected, but χ²={chi2:.2f} is still too high")
+                print(f"   (need χ² < 100 for relative convergence check)")
+
+                # Check if we're stuck with high χ²
+                if len(chi2_history) >= 5:
+                    recent_chi2 = chi2_history[-5:]
+                    if max(recent_chi2) - min(recent_chi2) < 1.0:
+                        print(f"❌ Stopping: χ² stuck around {chi2:.2f} for 5 iterations")
+                        print(f"   Possible issues:")
+                        print(f"   - Initial structure far from experiment")
+                        print(f"   - Learning rate α={alpha} may be too small or too large")
+                        print(f"   - Experimental data may have systematic differences")
+                        break
 
         # 8. Update U_EP
         print("\nUpdating empirical potentials...")

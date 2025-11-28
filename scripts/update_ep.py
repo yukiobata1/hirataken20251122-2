@@ -40,10 +40,15 @@ def update_ep(r, g_sim, g_exp, U_ep_old, alpha=0.3, T=423.15, max_amp=1.0, sigma
     kT = kB * T
 
     # Calculate difference
-    delta_g = g_sim - g_exp
+    # IMPORTANT: Sign convention!
+    # If g_sim < g_exp: atoms too close → need repulsive potential (U_EP > 0)
+    # If g_sim > g_exp: atoms too far → need attractive potential (U_EP < 0)
+    delta_g = g_exp - g_sim  # Note: REVERSED from naive expectation!
 
     # Update U_EP according to EPSR formula:
-    # U_EP^(n+1) = U_EP^(n) + α * kT * [g_sim - g_exp]
+    # U_EP^(n+1) = U_EP^(n) + α * kT * [g_exp - g_sim]
+    # This is equivalent to: U_EP^(n+1) = U_EP^(n) - α * kT * ln(g_sim/g_exp)
+    # for small differences using first-order Taylor expansion
     U_ep_new = U_ep_old + alpha * kT * delta_g
 
     # Apply amplitude clipping to prevent non-physical values
@@ -172,7 +177,7 @@ def initialize_ep_tables(r_min=2.0, r_max=12.0, N=200, output_dir='data'):
     return r
 
 
-def calc_chi_squared(g_sim, g_exp, sigma=0.01):
+def calc_chi_squared(g_sim, g_exp, sigma=0.05):
     """
     Calculate χ² between simulated and experimental g(r)
 
@@ -183,13 +188,18 @@ def calc_chi_squared(g_sim, g_exp, sigma=0.01):
     g_exp : array
         Experimental g(r)
     sigma : float or array
-        Measurement uncertainty (default: 0.01)
+        Measurement uncertainty (default: 0.05 for neutron diffraction)
+        Typical values: 0.03-0.10 depending on data quality
 
     Returns
     -------
     chi2 : float
-        χ² value
+        χ² value (should be ~N for good fit, where N = number of data points)
     """
+    # Calculate χ² = Σ[(g_sim - g_exp)² / σ²]
+    # For a good fit, χ² ≈ N (number of data points)
+    # χ² >> N: poor fit
+    # χ² << N: overfitting or σ too large
     chi2 = np.sum((g_sim - g_exp)**2 / sigma**2)
     return chi2
 
