@@ -236,9 +236,12 @@ class LAMMPSInterface:
         if len(all_blocks) == 0:
             raise ValueError(f"No valid RDF data found in {filename}")
 
-        # Use last timestep (most recent data)
-        last_timestep, data = all_blocks[-1]
-        print(f"  Read RDF from timestep {last_timestep} ({len(data)} bins)")
+        # Average over last 80 blocks (last 80,000 steps) for better statistics
+        n_blocks_to_average = min(80, len(all_blocks))
+        print(f"  Averaging RDF over last {n_blocks_to_average} blocks (out of {len(all_blocks)} total)")
+        data_blocks = [block[1] for block in all_blocks[-n_blocks_to_average:]]
+        data = np.mean(data_blocks, axis=0)
+        print(f"  Averaged RDF ({len(data)} bins)")
 
         # Extract columns
         # Column 0: bin index
