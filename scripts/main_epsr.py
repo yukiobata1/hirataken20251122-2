@@ -275,14 +275,14 @@ def main():
     """
     # ========== Parameters ==========
     max_iter = 50           # Maximum iterations
-    alpha = 0.3             # Learning rate
+    alpha = 0.2             # Learning rate (reduced from 0.3 for stability)
     tol = 250.0             # Convergence tolerance (χ²) - expect ~179 for good fit
     T = 423.15              # Temperature (K) - 150°C
     r_min = 2.0             # Minimum distance for U_EP grid (Å)
     r_max = 12.0            # Maximum distance for U_EP grid (Å)
     N_grid = 200            # Number of grid points
-    max_amp = 1.0           # Maximum amplitude for U_EP (kcal/mol)
-    sigma_smooth = 2        # Gaussian smoothing sigma
+    max_amp = 3.0           # Maximum amplitude for U_EP (kcal/mol) - increased from 1.0
+    sigma_smooth = 1.5      # Gaussian smoothing sigma (reduced from 2 to preserve features)
 
     # GPU/Kokkos settings for H100
     use_gpu = True          # Use H100 GPU with Kokkos
@@ -437,12 +437,43 @@ def main():
 
         # Update U_EP for each pair (simplified: use total g(r))
         # In a more sophisticated approach, use partial g(r) for each pair
+        
+        # Calculate weights based on neutron scattering lengths and composition
+        # Composition: Ga0.858 In0.142
+        c_Ga = 0.858
+        c_In = 0.142
+        # Neutron scattering lengths (fm)
+        b_Ga = 7.288
+        b_In = 4.061
+        
+        # Weight contributions to total structure factor S(Q) or g(r)
+        # W_ij = c_i * c_j * b_i * b_j * (2 if i!=j else 1)
+        w_GaGa = (c_Ga * b_Ga)**2
+        w_InIn = (c_In * b_In)**2
+        w_GaIn = 2 * (c_Ga * b_Ga) * (c_In * b_In)
+        
+        # Normalize weights so the strongest contribution uses the full alpha
+        w_max = max(w_GaGa, w_InIn, w_GaIn)
+        w_GaGa_norm = w_GaGa / w_max
+        w_InIn_norm = w_InIn / w_max
+        w_GaIn_norm = w_GaIn / w_max
+        
+        if iteration == 1:
+            print(f"\nWeighting factors for potential updates:")
+            print(f"  Ga-Ga: {w_GaGa:.2f} (norm: {w_GaGa_norm:.3f})")
+            print(f"  In-In: {w_InIn:.2f} (norm: {w_InIn_norm:.3f})")
+            print(f"  Ga-In: {w_GaIn:.2f} (norm: {w_GaIn_norm:.3f})")
+
+        # Apply weighted updates
+        # This prevents "invisible" components (like In-In) from being 
+        # driven wildly by errors in the dominant component (Ga-Ga)
+        
         U_ep_GaGa = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_GaGa,
-                              alpha=alpha, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
+                              alpha=alpha * w_GaGa_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
         U_ep_InIn = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_InIn,
-                              alpha=alpha, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
+                              alpha=alpha * w_InIn_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
         U_ep_GaIn = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_GaIn,
-                              alpha=alpha, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
+                              alpha=alpha * w_GaIn_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
 
         print(f"U_EP ranges: Ga-Ga [{U_ep_GaGa.min():.3f}, {U_ep_GaGa.max():.3f}], "
               f"In-In [{U_ep_InIn.min():.3f}, {U_ep_InIn.max():.3f}], "
