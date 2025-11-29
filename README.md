@@ -67,11 +67,13 @@ python scripts/main_epsr.py
 
 ### New Implementation
 
-- ✅ **Proper EPSR algorithm** with structure factor Fourier transforms
+- ✅ **Proper EPSR algorithm** with S(Q) structure factors (Soper 1996, 2005)
+- ✅ **Fourier transforms** between g(r) and S(Q) spaces
 - ✅ **Modular design** - clean, testable, extensible
 - ✅ **Multiple optimization methods** - Simple, Momentum, Nesterov
 - ✅ **Automatic convergence detection**
 - ✅ **Partial RDF support** with proper neutron scattering weights
+- ✅ **Q-space refinement** - theoretically correct multi-component handling
 - ✅ **Python API** for custom workflows
 - ✅ **Command-line interface** for easy use
 - ✅ **Unit tests** for reliability
@@ -210,7 +212,9 @@ Where U_empirical is refined using:
 
 | Feature | Legacy | New |
 |---------|--------|-----|
-| Algorithm | Simplified kT·Δg | Proper EPSR with S(Q) |
+| Algorithm | Simplified kT·Δg | Proper EPSR with S(Q) Fourier transforms |
+| Multi-component | Approximate | Correct weighted S(Q) |
+| Theoretical basis | Ad-hoc | Soper (1996, 2005) |
 | Structure | Monolithic script | Modular package |
 | API | Script only | Script + Library |
 | Testing | Manual | Automated |

@@ -336,31 +336,69 @@ class EPSREngine:
         g_sim: np.ndarray,
         g_partial: Optional[Dict[str, np.ndarray]]
     ):
-        """Update empirical potentials based on simulation results."""
+        """
+        Update empirical potentials based on simulation results.
+
+        Uses proper EPSR method with structure factors in Q-space.
+        """
         if self.config.verbose:
-            print("\nUpdating empirical potentials...")
+            print("\nUpdating empirical potentials (S(Q) method)...")
 
-        # Interpolate experimental data to potential grid
-        g_exp_on_grid = interpolate_to_grid(self.r_exp, self.g_exp, self.r_grid)
+        # Define Q-space grid for Fourier transforms
+        Q = np.linspace(0.5, 20.0, 300)  # Å⁻¹
 
-        # Update each pair potential
+        # Create StructureFactor calculator
+        sf = StructureFactor(rho=self.config.density)
+
+        # Convert experimental g(r) to S(Q)
+        S_exp = sf.g_to_S(self.r_exp, self.g_exp, Q)
+
+        if self.config.verbose:
+            print(f"  Converted g_exp(r) → S_exp(Q) ({len(Q)} Q points)")
+
+        # Calculate structure factors from simulation
+        if g_partial and len(g_partial) >= 3:
+            # Use partial g(r) to calculate weighted S(Q)
+            if self.config.verbose:
+                print("  Using partial g(r) for S(Q) calculation")
+
+            # Convert each partial g(r) to S(Q)
+            S_partial = {}
+            for pair_name in ['GaGa', 'InIn', 'GaIn']:
+                if pair_name in g_partial:
+                    S_partial[pair_name] = sf.g_to_S(r_sim, g_partial[pair_name], Q)
+
+            # Calculate weighted total S(Q)
+            # S_total = Σ w_ij * S_ij(Q)
+            S_sim = np.zeros_like(Q)
+            weights_sum = 0.0
+            for pair_name, weight in self.weights.items():
+                if pair_name in S_partial:
+                    S_sim += weight * S_partial[pair_name]
+                    weights_sum += weight
+
+            # Normalize
+            if weights_sum > 0:
+                S_sim /= weights_sum
+
+            if self.config.verbose:
+                print(f"  Calculated weighted S_total(Q)")
+        else:
+            # Use total g(r) if partial not available
+            if self.config.verbose:
+                print("  Warning: Using total g(r) for S(Q) (partial RDF not available)")
+            S_sim = sf.g_to_S(r_sim, g_sim, Q)
+
+        # Update each pair potential using S(Q) difference
         for pair_name, ep in self.potentials.items():
-            # Use partial g(r) if available, otherwise use total g(r)
-            if g_partial and pair_name in g_partial:
-                g_sim_pair = interpolate_to_grid(r_sim, g_partial[pair_name], self.r_grid)
-            else:
-                g_sim_pair = interpolate_to_grid(r_sim, g_sim, self.r_grid)
-                if self.config.verbose:
-                    print(f"  Warning: Using total g(r) for {pair_name} "
-                          "(partial RDF not available)")
-
             # Apply weighting
             alpha_weighted = self.config.learning_rate * self.weights[pair_name]
 
-            # Update potential
-            ep.update_from_rdf(
-                g_sim=g_sim_pair,
-                g_exp=g_exp_on_grid,
+            # Update potential in Q-space
+            ep.update_from_structure_factors(
+                Q=Q,
+                S_sim=S_sim,
+                S_exp=S_exp,
                 alpha=alpha_weighted,
                 use_momentum=self.config.use_momentum,
                 beta=self.config.momentum_beta
