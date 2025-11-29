@@ -289,7 +289,7 @@ def main():
     gpu_id = 0              # GPU device ID
 
     # File paths
-    exp_data_file = 'data/g_exp.dat'
+    exp_data_file = 'data/g_exp_cleaned.dat'
     lammps_input = 'inputs/in.egain_epsr_H100' if use_gpu else 'inputs/in.egain_epsr'
     rdf_output = 'rdf.dat'
 
@@ -433,11 +433,14 @@ def main():
 
         # Interpolate experimental data to U_EP grid
         g_exp_on_grid = np.interp(r_grid, r_exp, g_exp)
-        g_sim_on_grid = np.interp(r_grid, r_sim, g_sim_total)
 
-        # Update U_EP for each pair (simplified: use total g(r))
-        # In a more sophisticated approach, use partial g(r) for each pair
-        
+        # CRITICAL FIX: Interpolate PARTIAL g(r) to U_EP grid
+        # Each pair potential is updated using its own partial g(r)
+        # This allows independent optimization of each interaction
+        g_GaGa_on_grid = np.interp(r_grid, r_sim, g_GaGa)
+        g_GaIn_on_grid = np.interp(r_grid, r_sim, g_GaIn)
+        g_InIn_on_grid = np.interp(r_grid, r_sim, g_InIn)
+
         # Calculate weights based on neutron scattering lengths and composition
         # Composition: Ga0.858 In0.142
         c_Ga = 0.858
@@ -445,34 +448,36 @@ def main():
         # Neutron scattering lengths (fm)
         b_Ga = 7.288
         b_In = 4.061
-        
+
         # Weight contributions to total structure factor S(Q) or g(r)
         # W_ij = c_i * c_j * b_i * b_j * (2 if i!=j else 1)
         w_GaGa = (c_Ga * b_Ga)**2
         w_InIn = (c_In * b_In)**2
         w_GaIn = 2 * (c_Ga * b_Ga) * (c_In * b_In)
-        
+
         # Normalize weights so the strongest contribution uses the full alpha
         w_max = max(w_GaGa, w_InIn, w_GaIn)
         w_GaGa_norm = w_GaGa / w_max
         w_InIn_norm = w_InIn / w_max
         w_GaIn_norm = w_GaIn / w_max
-        
+
         if iteration == 1:
             print(f"\nWeighting factors for potential updates:")
             print(f"  Ga-Ga: {w_GaGa:.2f} (norm: {w_GaGa_norm:.3f})")
             print(f"  In-In: {w_InIn:.2f} (norm: {w_InIn_norm:.3f})")
             print(f"  Ga-In: {w_GaIn:.2f} (norm: {w_GaIn_norm:.3f})")
 
-        # Apply weighted updates
-        # This prevents "invisible" components (like In-In) from being 
+        # Apply weighted updates using PARTIAL g(r)
+        # Each partial g(r) is compared to g_exp (approximation)
+        # The weighted combination will converge to match g_exp
+        # This prevents "invisible" components (like In-In) from being
         # driven wildly by errors in the dominant component (Ga-Ga)
-        
-        U_ep_GaGa = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_GaGa,
+
+        U_ep_GaGa = update_ep(r_grid, g_GaGa_on_grid, g_exp_on_grid, U_ep_GaGa,
                               alpha=alpha * w_GaGa_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
-        U_ep_InIn = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_InIn,
+        U_ep_InIn = update_ep(r_grid, g_InIn_on_grid, g_exp_on_grid, U_ep_InIn,
                               alpha=alpha * w_InIn_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
-        U_ep_GaIn = update_ep(r_grid, g_sim_on_grid, g_exp_on_grid, U_ep_GaIn,
+        U_ep_GaIn = update_ep(r_grid, g_GaIn_on_grid, g_exp_on_grid, U_ep_GaIn,
                               alpha=alpha * w_GaIn_norm, T=T, max_amp=max_amp, sigma_smooth=sigma_smooth)
 
         print(f"U_EP ranges: Ga-Ga [{U_ep_GaGa.min():.3f}, {U_ep_GaGa.max():.3f}], "
