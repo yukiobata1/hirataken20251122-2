@@ -18,7 +18,7 @@ from update_ep import (
 
 def read_lammps_rdf(filename):
     """
-    Read LAMMPS RDF output file
+    Read LAMMPS RDF output file from 'fix ave/time' with 'mode vector'
 
     Parameters
     ----------
@@ -38,43 +38,76 @@ def read_lammps_rdf(filename):
     g_InIn : array or None
         In-In partial g(r) (if available)
     """
-    data = []
+    # Read file and find the last timestep block
+    # Format: "timestep N_bins" header followed by N_bins rows of data
+    all_blocks = []
+    current_block = []
+    last_timestep = None
+
     with open(filename, 'r') as f:
         for line in f:
             if line.startswith('#') or not line.strip():
                 continue
             parts = line.split()
+
+            # Check if this is a timestep header (e.g., "21000 200")
+            if len(parts) == 2:
+                try:
+                    timestep = int(parts[0])
+                    n_bins = int(parts[1])
+                    # Save previous block if it exists
+                    if current_block:
+                        all_blocks.append((last_timestep, np.array(current_block)))
+                    # Start new block
+                    current_block = []
+                    last_timestep = timestep
+                    continue
+                except ValueError:
+                    pass
+
+            # Try to parse as data row
             if len(parts) >= 3:
                 try:
-                    data.append([float(x) for x in parts])
-                except:
+                    current_block.append([float(x) for x in parts])
+                except ValueError:
                     continue
 
-    if len(data) == 0:
-        raise ValueError(f"No data found in {filename}")
+    # Don't forget the last block
+    if current_block:
+        all_blocks.append((last_timestep, np.array(current_block)))
 
-    data = np.array(data)
+    if len(all_blocks) == 0:
+        raise ValueError(f"No valid RDF data blocks found in {filename}")
 
-    # LAMMPS RDF output format:
-    # Column 1: timestep
-    # Column 2: r
-    # Column 3: g_total (all pairs)
-    # Columns 4+: coordination numbers and partial g(r) if requested
+    # Use the last timestep (most recent/final averaged data)
+    last_timestep, data = all_blocks[-1]
+    print(f"  Using RDF data from timestep {last_timestep} ({len(data)} bins)")
+
+    # LAMMPS RDF output format with 'fix ave/time ... c_myrdf[*]':
+    # Column 0: bin index
+    # Column 1: r
+    # Column 2: g_total (all pairs)
+    # Column 3: coord_total
+    # Column 4: g_11 (type 1-1, Ga-Ga)
+    # Column 5: coord_11
+    # Column 6: g_12 (type 1-2, Ga-In)
+    # Column 7: coord_12
+    # Column 8: g_22 (type 2-2, In-In) - if present
+    # Column 9: coord_22 - if present
 
     r = data[:, 1]
     g_total = data[:, 2]
 
     # Check if partial g(r) are available
-    # For "compute rdf all rdf 200 1 1 1 2 2 2":
-    # Columns: timestep, r, g_total, coord_total, g_11, coord_11, g_12, coord_12, g_22, coord_22
     g_GaGa = None
     g_GaIn = None
     g_InIn = None
 
-    if data.shape[1] >= 9:
+    if data.shape[1] >= 8:
         g_GaGa = data[:, 4]  # g_11 (Ga-Ga)
         g_GaIn = data[:, 6]  # g_12 (Ga-In)
-        g_InIn = data[:, 8]  # g_22 (In-In)
+        if data.shape[1] >= 10:
+            g_InIn = data[:, 8]  # g_22 (In-In)
 
     return r, g_total, g_GaGa, g_GaIn, g_InIn
 
@@ -437,9 +470,24 @@ def main():
         # CRITICAL FIX: Interpolate PARTIAL g(r) to U_EP grid
         # Each pair potential is updated using its own partial g(r)
         # This allows independent optimization of each interaction
-        g_GaGa_on_grid = np.interp(r_grid, r_sim, g_GaGa)
-        g_GaIn_on_grid = np.interp(r_grid, r_sim, g_GaIn)
-        g_InIn_on_grid = np.interp(r_grid, r_sim, g_InIn)
+        # Handle cases where partial RDFs might not be available
+        if g_GaGa is not None:
+            g_GaGa_on_grid = np.interp(r_grid, r_sim, g_GaGa)
+        else:
+            print("  WARNING: Ga-Ga partial RDF not available, using total g(r)")
+            g_GaGa_on_grid = np.interp(r_grid, r_sim, g_sim_total)
+
+        if g_GaIn is not None:
+            g_GaIn_on_grid = np.interp(r_grid, r_sim, g_GaIn)
+        else:
+            print("  WARNING: Ga-In partial RDF not available, using total g(r)")
+            g_GaIn_on_grid = np.interp(r_grid, r_sim, g_sim_total)
+
+        if g_InIn is not None:
+            g_InIn_on_grid = np.interp(r_grid, r_sim, g_InIn)
+        else:
+            print("  WARNING: In-In partial RDF not available, using total g(r)")
+            g_InIn_on_grid = np.interp(r_grid, r_sim, g_sim_total)
 
         # Calculate weights based on neutron scattering lengths and composition
         # Composition: Ga0.858 In0.142
