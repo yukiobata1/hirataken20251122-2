@@ -96,6 +96,11 @@ def main():
         default=3.0,
         help='Maximum potential amplitude (kcal/mol)'
     )
+    parser.add_argument(
+        '--use-gr',
+        action='store_true',
+        help='Use direct g(r) method instead of S(Q) Fourier method (more stable)'
+    )
 
     # GPU options
     parser.add_argument(
@@ -147,6 +152,7 @@ def main():
         method=args.method,
         momentum_beta=args.beta,
         max_amplitude=args.max_amplitude,
+        use_sq_update=not args.use_gr,
         use_gpu=args.gpu,
         gpu_id=args.gpu_id,
         output_dir=args.output_dir,

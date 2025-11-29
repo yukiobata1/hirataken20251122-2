@@ -61,6 +61,8 @@ class EPSRConfig:
         Momentum coefficient, default: 0.9
     method : str, optional
         Update method: 'simple', 'momentum', 'nesterov', default: 'momentum'
+    use_sq_update : bool, optional
+        Use S(Q) Fourier method (True) or direct g(r) method (False), default: True
     sigma_exp : float, optional
         Experimental uncertainty for chi-squared, default: 0.05
     use_gpu : bool, optional
@@ -97,6 +99,7 @@ class EPSRConfig:
     use_momentum: bool = True
     momentum_beta: float = 0.9
     method: str = 'momentum'
+    use_sq_update: bool = True
 
     # Experimental data
     sigma_exp: float = 0.05
@@ -339,7 +342,21 @@ class EPSREngine:
         """
         Update empirical potentials based on simulation results.
 
-        Uses proper EPSR method with structure factors in Q-space.
+        Uses either S(Q) Fourier method or direct g(r) method.
+        """
+        if self.config.use_sq_update:
+            self._update_potentials_sq(r_sim, g_sim, g_partial)
+        else:
+            self._update_potentials_gr(r_sim, g_sim, g_partial)
+
+    def _update_potentials_sq(
+        self,
+        r_sim: np.ndarray,
+        g_sim: np.ndarray,
+        g_partial: Optional[Dict[str, np.ndarray]]
+    ):
+        """
+        Update empirical potentials using S(Q) Fourier method.
         """
         if self.config.verbose:
             print("\nUpdating empirical potentials (S(Q) method)...")
@@ -399,6 +416,40 @@ class EPSREngine:
                 Q=Q,
                 S_sim=S_sim,
                 S_exp=S_exp,
+                alpha=alpha_weighted,
+                use_momentum=self.config.use_momentum,
+                beta=self.config.momentum_beta
+            )
+
+            U = ep.get_potential()
+            if self.config.verbose:
+                print(f"  {pair_name}: U ∈ [{U.min():.3f}, {U.max():.3f}] kcal/mol")
+
+    def _update_potentials_gr(
+        self,
+        r_sim: np.ndarray,
+        g_sim: np.ndarray,
+        g_partial: Optional[Dict[str, np.ndarray]]
+    ):
+        """
+        Update empirical potentials using direct g(r) method (more stable).
+        """
+        if self.config.verbose:
+            print("\nUpdating empirical potentials (direct g(r) method)...")
+
+        # Interpolate simulation g(r) onto potential grid
+        g_sim_interp = interpolate_to_grid(r_sim, g_sim, self.r_grid)
+        g_exp_interp = interpolate_to_grid(self.r_exp, self.g_exp, self.r_grid)
+
+        # Update each pair potential using g(r) difference
+        for pair_name, ep in self.potentials.items():
+            # Apply weighting
+            alpha_weighted = self.config.learning_rate * self.weights[pair_name]
+
+            # Update potential directly in r-space
+            ep.update_from_rdf(
+                g_sim=g_sim_interp,
+                g_exp=g_exp_interp,
                 alpha=alpha_weighted,
                 use_momentum=self.config.use_momentum,
                 beta=self.config.momentum_beta
