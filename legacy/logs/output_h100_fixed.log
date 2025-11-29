@@ -1,0 +1,135 @@
+[1763812422.118734] [192-222-52-119:86093:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
+[1763812422.181166] [192-222-52-119:86093:0]     ucp_context.c:1774 UCX  WARN  UCP version is incompatible, required: 1.18, actual: 1.12 (release 1)
+LAMMPS (22 Jul 2025 - Update 2)
+KOKKOS mode with Kokkos version 4.6.2 is enabled
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 4.1 4.1 4.1
+Created orthogonal box = (0 0 0) to (82 82 82)
+  1 by 1 by 1 MPI processor grid
+Created 32000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (82 82 82)
+  create_atoms CPU = 0.018 seconds
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 10.3
+  ghost atom cutoff = 10.3
+  binsize = 4, bins = 21 21 21
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/alloy/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Setting up cg/kk style minimization ...
+  Unit style    : metal
+  Current step  : 0
+WARNING: Fix MINIMIZE/kk not compatible with sending data in Kokkos communication (src/KOKKOS/comm_kokkos.cpp:767)
+WARNING: Fix with atom-based arrays not compatible with sending data in Kokkos communication, switching to classic exchange/border communication (src/KOKKOS/comm_kokkos.cpp:780)
+WARNING: Fix MINIMIZE/kk not compatible with Kokkos sorting on device (src/KOKKOS/atom_kokkos.cpp:212)
+WARNING: Fix with atom-based arrays not compatible with Kokkos sorting on device, switching to classic host sorting (src/KOKKOS/atom_kokkos.cpp:218)
+Per MPI rank memory allocation (min/avg/max) = 17.25 | 17.25 | 17.25 Mbytes
+   Step          Temp          Press          PotEng         KinEng         TotEng         Volume        Density          CPU      
+         0   1500           9433.347      -91078.51       6204.2931     -84874.217      551368         6.7194472      0            
+         1   1500           9433.347      -91078.51       6204.2931     -84874.217      551368         6.7194472      0.024147174  
+Loop time of 0.0241558 on 1 procs for 1 steps with 32000 atoms
+
+54.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -91078.5096707384  -91078.5096707384  -91078.5096707384
+  Force two-norm initial, final = 3.4142239e-12 3.3013934e-12
+  Force max component initial, final = 3.2206537e-14 3.1981462e-14
+  Final line search alpha, max atom move = 1 3.1981462e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0094683  | 0.0094683  | 0.0094683  |   0.0 | 39.20
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0012012  | 0.0012012  | 0.0012012  |   0.0 |  4.97
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.01349    |            |       | 55.83
+
+Nlocal:          32000 ave       32000 max       32000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          34325 ave       34325 max       34325 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:    7.936e+06 ave   7.936e+06 max   7.936e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 7936000
+Ave neighs/atom = 248
+Neighbor list builds = 0
+Dangerous builds = 0
+=== GPU Stage 1: Melting at 1500K (NVT) ===
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.0001
+Per MPI rank memory allocation (min/avg/max) = 12.7 | 12.7 | 12.7 Mbytes
+   Step          Temp          Press          PotEng         KinEng         TotEng         Volume        Density          CPU      
+         0   1500           9433.347      -91078.51       6204.2931     -84874.217      551368         6.7194472      0            
+       500   681.94195      65821.446     -87619.395      2820.6452     -84798.75       551368         6.7194472      4.1254274    
+      1000   780.43233      71642.535     -87863.032      3228.0206     -84635.011      551368         6.7194472      8.2796284    
+      1500   686.15999      76851.395     -87260.569      2838.0918     -84422.477      551368         6.7194472      12.461402    
+      2000   798.07005      76184.184     -87482.416      3300.9736     -84181.442      551368         6.7194472      16.697493    
+      2500   806.74881      78109.127     -87252.344      3336.8707     -83915.474      551368         6.7194472      20.962531    
+      3000   864.27658      79162.092     -87203.46       3574.8168     -83628.643      551368         6.7194472      25.320492    
+      3500   893.72541      81170.516     -87021.233      3696.6229     -83324.61       551368         6.7194472      29.777956    
+      4000   937.13987      77406.573     -86882.071      3876.1936     -83005.877      551368         6.7194472      32.981958    
+      4500   971.94344      85062.409     -86693.968      4020.148      -82673.82       551368         6.7194472      37.656262    
+      5000   1020.4472      86969.284     -86550.628      4220.7689     -82329.859      551368         6.7194472      41.888237    
+      5500   1053.8759      89220.923     -86336.024      4359.0368     -81976.987      551368         6.7194472      46.243916    
+      6000   1092.6682      91580.709     -86136.164      4519.489      -81616.675      551368         6.7194472      50.353969    
+      6500   1131.9277      93739.066     -85933.067      4681.874      -81251.193      551368         6.7194472      54.737868    
+      7000   1173.2299      96292.878     -85735.001      4852.7082     -80882.293      551368         6.7194472      57.826772    
+      7500   1206.9163      98753.214     -85505.088      4992.0416     -80513.046      551368         6.7194472      60.737234    
+      8000   1247.8653      101223.33     -85306.226      5161.4148     -80144.812      551368         6.7194472      61.208232    
+      8500   1281.929       103374.12     -85083.861      5302.3087     -79781.553      551368         6.7194472      61.671098    
+      9000   1324.2444      105504.7      -84902.459      5477.3338     -79425.125      551368         6.7194472      62.122634    
+      9500   1364.1007      107267.93     -84723.531      5642.1871     -79081.344      551368         6.7194472      62.578306    
+     10000   1409.953       109195.45     -84587.663      5831.841      -78755.822      551368         6.7194472      63.037567    
+Loop time of 63.0376 on 1 procs for 10000 steps with 32000 atoms
+
+Performance: 1.371 ns/day, 17.510 hours/ns, 158.636 timesteps/s, 5.076 Matom-step/s
+76.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 38.672     | 38.672     | 38.672     |   0.0 | 61.35
+Neigh   | 0.040613   | 0.040613   | 0.040613   |   0.0 |  0.06
+Comm    | 0.15238    | 0.15238    | 0.15238    |   0.0 |  0.24
+Output  | 0.005288   | 0.005288   | 0.005288   |   0.0 |  0.01
+Modify  | 19.084     | 19.084     | 19.084     |   0.0 | 30.27
+Other   |            | 5.083      |            |       |  8.06
+
+Nlocal:          32000 ave       32000 max       32000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          30696 ave       30696 max       30696 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  8.47797e+06 ave 8.47797e+06 max 8.47797e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 8477966
+Ave neighs/atom = 264.93644
+Neighbor list builds = 15
+Dangerous builds = 0
+=== GPU Stage 1.5: Density Relaxation at 1500K (NPT) ===
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 10000
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 12.5 | 12.5 | 12.5 Mbytes
+   Step          Temp          Press          PotEng         KinEng         TotEng         Volume        Density          CPU      
+     10000   1409.953       109195.45     -84587.663      5831.841      -78755.822      551368         6.719
