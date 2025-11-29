@@ -9,15 +9,8 @@ atom_style atomic
 boundary p p p
 
 # ========== Read structure ==========
-# Check if restart file exists, otherwise read initial structure
-# For first iteration, use initial structure
-# For subsequent iterations, can use restart file for faster equilibration
-
-variable restart_exists file outputs/restart.*.data
-if "${restart_exists} > 0" then &
-    "read_restart outputs/restart.*.data" &
-else &
-    "read_data inputs/initial_structure.data"
+# Read initial structure (restart handling done externally by Python script)
+read_data inputs/initial_structure.data
 
 # ========== Force field ==========
 # Use hybrid/overlay to combine LJ and table potentials
@@ -44,9 +37,8 @@ mass 2 114.818   # In
 neighbor 2.0 bin
 neigh_modify every 1 delay 0 check yes
 
-# ========== Initial velocity (if not from restart) ==========
-if "${restart_exists} == 0" then &
-    "velocity all create 423.15 12345 dist gaussian"
+# ========== Initial velocity ==========
+velocity all create 423.15 12345 dist gaussian
 
 # ========== Thermodynamic output ==========
 thermo 1000
@@ -64,11 +56,7 @@ print "========== Equilibration =========="
 fix nvt all nvt temp 423.15 423.15 100.0
 timestep 2.0
 
-# Shorter equilibration if reading from restart
-if "${restart_exists} > 0" then &
-    "run 20000" &
-else &
-    "run 50000"
+run 50000
 
 unfix nvt
 
