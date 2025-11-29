@@ -41,13 +41,13 @@ def update_ep(r, g_sim, g_exp, U_ep_old, alpha=0.3, T=423.15, max_amp=1.0, sigma
 
     # Calculate difference
     # IMPORTANT: Sign convention!
-    # If g_sim < g_exp: atoms too close → need repulsive potential (U_EP > 0)
-    # If g_sim > g_exp: atoms too far → need attractive potential (U_EP < 0)
-    delta_g = g_exp - g_sim  # Note: REVERSED from naive expectation!
+    # If g_sim < g_exp: too few atoms at this distance → need ATTRACTIVE potential (U_EP < 0)
+    # If g_sim > g_exp: too many atoms at this distance → need REPULSIVE potential (U_EP > 0)
+    delta_g = g_sim - g_exp  # Positive when we have too many atoms
 
     # Update U_EP according to EPSR formula:
-    # U_EP^(n+1) = U_EP^(n) + α * kT * [g_exp - g_sim]
-    # This is equivalent to: U_EP^(n+1) = U_EP^(n) - α * kT * ln(g_sim/g_exp)
+    # U_EP^(n+1) = U_EP^(n) + α * kT * [g_sim - g_exp]
+    # This is equivalent to: U_EP^(n+1) = U_EP^(n) - α * kT * ln(g_exp/g_sim)
     # for small differences using first-order Taylor expansion
     U_ep_new = U_ep_old + alpha * kT * delta_g
 
