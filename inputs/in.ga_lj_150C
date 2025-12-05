@@ -1,0 +1,103 @@
+# Pure Gallium LJ simulation at 150°C (423.15 K)
+# Potential: Lennard-Jones 12-6 (σ = 2.7 Å, ε = 1.8 kJ mol⁻¹)
+# GPU: Using KOKKOS for acceleration
+
+# ========== KOKKOS Initialization (CRITICAL: Must be first) ==========
+# CRITICAL FIX: newton off prevents KOKKOS errors on H100
+package         kokkos neigh full newton off
+
+# ========== Initialization ==========
+units           real  # epsilon in kcal/mol (0.430 kcal/mol)
+atom_style      atomic
+boundary        p p p
+
+# ========== Read structure ==========
+read_data       inputs/data.ga_1000
+
+# ========== Force field ==========
+# LJ parameters: ε=1.8 kJ/mol = 0.430 kcal/mol, σ=2.70 Å
+# Use KOKKOS-accelerated pair style
+pair_style      lj/cut/kk 12.0
+pair_coeff      1 1 0.430 2.70    # Ga-Ga
+
+# ========== Settings ==========
+mass            1 69.723    # Ga
+
+# Optimized neighbor list for GPU
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes binsize 4.0
+
+# ========== Initial velocity ==========
+velocity        all create 423.15 42315 dist gaussian
+
+# ========== Thermodynamic output ==========
+thermo          1000
+thermo_style    custom step temp pe ke etotal press vol density cpu
+
+# ========== Minimization (CRITICAL for random initial structure) ==========
+print "========== Energy Minimization =========="
+# Minimize to remove overlapping atoms and bad geometry
+minimize        1.0e-4 1.0e-6 10000 100000
+reset_timestep  0
+
+# ========== RDF computation ==========
+# Compute total pair distribution function
+compute         myrdf all rdf 200 1 1 cutoff 12.0
+
+# Time-average RDF output
+fix             rdfout all ave/time 100 10 1000 c_myrdf[*] file rdf.dat mode vector
+
+# ========== Equilibration (NVT) ==========
+print "========== GPU Equilibration =========="
+
+# Start with small timestep for stability
+timestep        0.5
+
+fix             nvt all nvt temp 423.15 423.15 100.0
+run             10000
+unfix           nvt
+
+# Increase timestep to normal
+timestep        2.0
+
+fix             nvt all nvt temp 423.15 423.15 100.0
+run             40000
+unfix           nvt
+
+# ========== Production (NVT) ==========
+print "========== GPU Production run =========="
+
+fix             nvt all nvt temp 423.15 423.15 100.0
+
+# Reset RDF for production run
+uncompute       myrdf
+compute         myrdf all rdf 200 1 1 cutoff 12.0
+unfix           rdfout
+fix             rdfout all ave/time 100 10 1000 c_myrdf[*] file rdf.dat mode vector
+
+dump            1 all custom 1000 dump.ga.lj.lammpstrj id type x y z
+
+run             100000
+unfix           nvt
+
+# ========== Finalize ==========
+print "========== GPU Simulation completed =========="
+
+# Final statistics
+variable        density_final equal density
+variable        temp_final equal temp
+variable        press_final equal press
+
+print "========================================="
+print "FINAL RESULTS:"
+print "  Density:     ${density_final} g/cm^3"
+print "  Temperature: ${temp_final} K"
+print "  Pressure:    ${press_final} bar"
+print "========================================="
+
+write_data      outputs/final_structure_ga_lj.data
+write_restart   outputs/restart_ga_lj
+
+print "RDF written to rdf.dat"
+print "Final structure written to outputs/final_structure_ga_lj.data"
+print "Trajectory written to dump.ga.lj.lammpstrj"

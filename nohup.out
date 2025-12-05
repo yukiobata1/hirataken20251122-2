@@ -1,0 +1,226 @@
+======================================================================
+ITERATION 1/50
+======================================================================
+Wrote data/ep_GaGa.table (label: EP_GAGA)
+Wrote data/ep_GaIn.table (label: EP_GAIN)
+Wrote data/ep_InIn.table (label: EP_ININ)
+Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
+  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter001.log
+  Log: outputs/lammps_iter001.log
+
+  print "========== Energy Minimization =========="
+
+  ========== Energy Minimization ==========
+  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
+  Step    126 | T= 423.15K | elapsed:    1.0s
+  Minimization stats:
+
+  # ========== Equilibration (NVT) ==========
+
+  print "========== H100 GPU Equilibration =========="
+
+  ========== H100 GPU Equilibration ==========
+  Step  20000 | T= 424.19K | elapsed:   78.7s
+  # ========== Production (NVT) ==========
+
+  print "========== H100 GPU Production run =========="
+
+  ========== H100 GPU Production run ==========
+  Step 120000 | T= 422.22K | elapsed:  494.8s
+LAMMPS completed (494.8s)
+  Averaging RDF over last 80 blocks (out of 100 total)
+  Averaged RDF (200 bins)
+
+χ² = 18483.717175
+R-factor = 0.325447
+
+Updating empirical potentials (S(Q) method)...
+  Converted g_exp(r) → S_exp(Q) (300 Q points)
+  Warning: Using total g(r) for S(Q) (partial RDF not available)
+  GaGa: U ∈ [-0.051, 0.102] kcal/mol
+  GaIn: U ∈ [-0.009, 0.019] kcal/mol
+  InIn: U ∈ [-0.000, 0.001] kcal/mol
+Saved plot: outputs/epsr_iter001.png
+
+======================================================================
+ITERATION 2/50
+======================================================================
+Wrote data/ep_GaGa.table (label: EP_GAGA)
+Wrote data/ep_GaIn.table (label: EP_GAIN)
+Wrote data/ep_InIn.table (label: EP_ININ)
+Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
+  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter002.log
+  Log: outputs/lammps_iter002.log
+
+  print "========== Energy Minimization =========="
+
+  ========== Energy Minimization ==========
+  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
+  Step    123 | T= 423.15K | elapsed:    1.0s
+  Minimization stats:
+
+  # ========== Equilibration (NVT) ==========
+
+  print "========== H100 GPU Equilibration =========="
+
+  ========== H100 GPU Equilibration ==========
+  Step  20000 | T= 423.37K | elapsed:   78.7s
+  # ========== Production (NVT) ==========
+
+  print "========== H100 GPU Production run =========="
+
+  ========== H100 GPU Production run ==========
+  Step 120000 | T= 421.91K | elapsed:  494.8s
+LAMMPS completed (495.3s)
+  Averaging RDF over last 80 blocks (out of 100 total)
+  Averaged RDF (200 bins)
+
+χ² = 18766.293850
+R-factor = 0.330042
+
+Updating empirical potentials (S(Q) method)...
+  Converted g_exp(r) → S_exp(Q) (300 Q points)
+  Warning: Using total g(r) for S(Q) (partial RDF not available)
+  GaGa: U ∈ [-0.134, 0.235] kcal/mol
+  GaIn: U ∈ [-0.025, 0.043] kcal/mol
+  InIn: U ∈ [-0.001, 0.002] kcal/mol
+Saved plot: outputs/epsr_iter002.png
+
+======================================================================
+ITERATION 3/50
+======================================================================
+Wrote data/ep_GaGa.table (label: EP_GAGA)
+Wrote data/ep_GaIn.table (label: EP_GAIN)
+Wrote data/ep_InIn.table (label: EP_ININ)
+Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
+  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter003.log
+  Log: outputs/lammps_iter003.log
+
+  print "========== Energy Minimization =========="
+
+  ========== Energy Minimization ==========
+  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
+  Step     99 | T= 423.15K | elapsed:    1.0s
+  Minimization stats:
+
+  # ========== Equilibration (NVT) ==========
+
+  print "========== H100 GPU Equilibration =========="
+
+  ========== H100 GPU Equilibration ==========
+  Step  20000 | T= 425.13K | elapsed:   78.7s
+  # ========== Production (NVT) ==========
+
+  print "========== H100 GPU Production run =========="
+
+  ========== H100 GPU Production run ==========
+  Step 120000 | T= 419.86K | elapsed:  494.8s
+LAMMPS completed (494.8s)
+  Averaging RDF over last 80 blocks (out of 100 total)
+  Averaged RDF (200 bins)
+
+χ² = 19479.329479
+R-factor = 0.337360
+
+Updating empirical potentials (S(Q) method)...
+  Converted g_exp(r) → S_exp(Q) (300 Q points)
+  Warning: Using total g(r) for S(Q) (partial RDF not available)
+  GaGa: U ∈ [-0.242, 0.386] kcal/mol
+  GaIn: U ∈ [-0.045, 0.071] kcal/mol
+  InIn: U ∈ [-0.002, 0.003] kcal/mol
+Saved plot: outputs/epsr_iter003.png
+
+======================================================================
+ITERATION 4/50
+======================================================================
+Wrote data/ep_GaGa.table (label: EP_GAGA)
+Wrote data/ep_GaIn.table (label: EP_GAIN)
+Wrote data/ep_InIn.table (label: EP_ININ)
+Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
+  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter004.log
+  Log: outputs/lammps_iter004.log
+
+  print "========== Energy Minimization =========="
+
+  ========== Energy Minimization ==========
+  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
+  Step     79 | T= 423.15K | elapsed:    1.0s
+  Minimization stats:
+
+  # ========== Equilibration (NVT) ==========
+
+  print "========== H100 GPU Equilibration =========="
+
+  ========== H100 GPU Equilibration ==========
+  Step  20000 | T= 420.42K | elapsed:   78.7s
+  # ========== Production (NVT) ==========
+
+  print "========== H100 GPU Production run =========="
+
+  ========== H100 GPU Production run ==========
+  Step 120000 | T= 424.57K | elapsed:  495.8s
+LAMMPS completed (495.8s)
+  Averaging RDF over last 80 blocks (out of 100 total)
+  Averaged RDF (200 bins)
+
+χ² = 19993.445396
+R-factor = 0.341425
+
+Updating empirical potentials (S(Q) method)...
+  Converted g_exp(r) → S_exp(Q) (300 Q points)
+  Warning: Using total g(r) for S(Q) (partial RDF not available)
+  GaGa: U ∈ [-0.372, 0.558] kcal/mol
+  GaIn: U ∈ [-0.069, 0.103] kcal/mol
+  InIn: U ∈ [-0.003, 0.005] kcal/mol
+Saved plot: outputs/epsr_iter004.png
+
+======================================================================
+ITERATION 5/50
+======================================================================
+Wrote data/ep_GaGa.table (label: EP_GAGA)
+Wrote data/ep_GaIn.table (label: EP_GAIN)
+Wrote data/ep_InIn.table (label: EP_ININ)
+Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
+  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter005.log
+  Log: outputs/lammps_iter005.log
+
+  print "========== Energy Minimization =========="
+
+  ========== Energy Minimization ==========
+  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
+  Step     67 | T= 423.15K | elapsed:    1.0s
+  Minimization stats:
+
+  # ========== Equilibration (NVT) ==========
+
+  print "========== H100 GPU Equilibration =========="
+
+  ========== H100 GPU Equilibration ==========
+  Step  20000 | T= 424.79K | elapsed:   79.2s
+  # ========== Production (NVT) ==========
+
+  print "========== H100 GPU Production run =========="
+
+  ========== H100 GPU Production run ==========
+  Step 120000 | T= 424.10K | elapsed:  496.3s
+LAMMPS completed (496.8s)
+  Averaging RDF over last 80 blocks (out of 100 total)
+  Averaged RDF (200 bins)
+
+χ² = 20127.318214
+R-factor = 0.342366
+
+✗ Stopping: χ² is consistently increasing (divergence)
+
+======================================================================
+EPSR COMPLETED
+======================================================================
+Converged: NO
+Iterations: 5
+Final χ²: 20127.318214
+Final R-factor: 0.342366
+Results saved to: outputs/final_ep.npz
+======================================================================
+
+✗ EPSR refinement did not converge.
+  Consider adjusting parameters (learning rate, max iterations, etc.)
