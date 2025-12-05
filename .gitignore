@@ -1,6 +1,6 @@
 # LAMMPS related
 lammps/
-
+nohup.out
 # Output files
 outputs/*.lammpstrj
 outputs/*.data

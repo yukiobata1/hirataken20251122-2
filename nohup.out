@@ -1,382 +1,0 @@
-======================================================================
-EPSR Engine - Empirical Potential Structure Refinement
-======================================================================
-Temperature: 423.15 K (150.0°C)
-Density: 0.042000 atoms/Å³
-Composition: {'Ga': 0.858, 'In': 0.142}
-Scattering lengths: {'Ga': 7.288, 'In': 4.061} fm
-
-Weighting factors:
-  GaGa: 0.8383
-  GaIn: 0.1546
-  InIn: 0.0071
-
-Potential grid: 2.0 - 12.0 Å (200 points)
-Update method: MOMENTUM
-Momentum β: 0.5
-Learning rate α: 0.05
-Max iterations: 100
-Convergence tolerance: χ² < 250.0
-
-Experimental data: data/g_exp_cleaned.dat
-  161 data points, r ∈ [2.04, 11.93] Å
-======================================================================
-
-======================================================================
-ITERATION 1/100
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter001.log
-  Log: outputs/lammps_iter001.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step    126 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 323.47K | elapsed:   16.5s  Step   2000 | T= 431.51K | elapsed:   16.5s  Step   3000 | T= 424.04K | elapsed:   16.5s  Step   4000 | T= 423.11K | elapsed:   16.5s  Step   5000 | T= 421.36K | elapsed:   16.5s  Step   5000 | T= 421.36K | elapsed:   78.7s  Step   6000 | T= 427.36K | elapsed:   78.7s  Step   7000 | T= 420.66K | elapsed:   78.7s  Step   8000 | T= 418.50K | elapsed:   78.7s  Step   9000 | T= 421.22K | elapsed:   78.7s  Step  10000 | T= 423.07K | elapsed:   78.7s  Step  11000 | T= 429.08K | elapsed:   78.7s  Step  12000 | T= 420.64K | elapsed:   78.7s  Step  13000 | T= 425.52K | elapsed:   78.7s  Step  14000 | T= 420.03K | elapsed:   78.7s  Step  15000 | T= 421.59K | elapsed:   78.7s  Step  16000 | T= 418.14K | elapsed:   78.7s  Step  17000 | T= 422.00K | elapsed:   78.7s  Step  18000 | T= 422.36K | elapsed:   78.7s  Step  19000 | T= 421.65K | elapsed:   78.7s  Step  20000 | T= 422.13K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 422.13K | elapsed:  291.2s  Step  21000 | T= 423.73K | elapsed:  291.2s  Step  22000 | T= 420.26K | elapsed:  291.2s  Step  23000 | T= 426.04K | elapsed:  291.2s  Step  24000 | T= 424.28K | elapsed:  291.2s  Step  25000 | T= 424.76K | elapsed:  291.2s  Step  26000 | T= 424.83K | elapsed:  291.2s  Step  27000 | T= 423.69K | elapsed:  291.2s  Step  28000 | T= 424.26K | elapsed:  291.2s  Step  29000 | T= 428.33K | elapsed:  291.2s  Step  30000 | T= 423.83K | elapsed:  291.2s  Step  31000 | T= 417.99K | elapsed:  291.2s  Step  32000 | T= 419.74K | elapsed:  291.2s  Step  33000 | T= 422.98K | elapsed:  291.2s  Step  34000 | T= 424.33K | elapsed:  291.2s  Step  35000 | T= 426.53K | elapsed:  291.2s  Step  36000 | T= 425.17K | elapsed:  291.2s  Step  37000 | T= 419.08K | elapsed:  291.2s  Step  38000 | T= 424.16K | elapsed:  291.2s  Step  39000 | T= 421.79K | elapsed:  291.2s  Step  40000 | T= 423.56K | elapsed:  291.2s  Step  41000 | T= 422.05K | elapsed:  291.2s  Step  42000 | T= 421.15K | elapsed:  291.2s  Step  43000 | T= 421.56K | elapsed:  291.2s  Step  44000 | T= 418.67K | elapsed:  291.2s  Step  45000 | T= 423.67K | elapsed:  291.2s  Step  46000 | T= 424.68K | elapsed:  291.2s  Step  47000 | T= 421.80K | elapsed:  291.2s  Step  48000 | T= 422.39K | elapsed:  291.2s  Step  49000 | T= 427.53K | elapsed:  291.2s  Step  50000 | T= 422.24K | elapsed:  291.2s  Step  51000 | T= 422.67K | elapsed:  291.2s  Step  52000 | T= 423.66K | elapsed:  291.2s  Step  53000 | T= 422.13K | elapsed:  291.2s  Step  54000 | T= 426.41K | elapsed:  291.2s  Step  55000 | T= 426.46K | elapsed:  291.2s  Step  56000 | T= 422.41K | elapsed:  291.2s  Step  57000 | T= 420.64K | elapsed:  291.2s  Step  58000 | T= 422.65K | elapsed:  291.2s  Step  59000 | T= 427.87K | elapsed:  291.2s  Step  60000 | T= 423.15K | elapsed:  291.2s  Step  61000 | T= 421.30K | elapsed:  291.2s  Step  62000 | T= 416.74K | elapsed:  291.2s  Step  63000 | T= 426.23K | elapsed:  291.2s  Step  64000 | T= 418.07K | elapsed:  291.2s  Step  65000 | T= 425.03K | elapsed:  291.2s  Step  66000 | T= 424.86K | elapsed:  291.2s  Step  67000 | T= 425.19K | elapsed:  291.2s  Step  68000 | T= 419.81K | elapsed:  291.2s  Step  69000 | T= 423.21K | elapsed:  291.2s  Step  70000 | T= 423.38K | elapsed:  291.2s
-LAMMPS completed (291.7s)
-  Read RDF from timestep 70000 (200 bins)
-
-χ² = 18507.109402
-R-factor = 0.325916
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.008, 0.017] kcal/mol
-  GaIn: U ∈ [-0.002, 0.003] kcal/mol
-  InIn: U ∈ [-0.000, 0.000] kcal/mol
-Saved plot: outputs/epsr_iter001.png
-
-======================================================================
-ITERATION 2/100
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter002.log
-  Log: outputs/lammps_iter002.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step    136 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 321.15K | elapsed:   16.5s  Step   2000 | T= 431.75K | elapsed:   16.5s  Step   3000 | T= 424.78K | elapsed:   16.5s  Step   4000 | T= 425.83K | elapsed:   16.5s  Step   5000 | T= 421.16K | elapsed:   16.5s  Step   5000 | T= 421.16K | elapsed:   78.7s  Step   6000 | T= 424.10K | elapsed:   78.7s  Step   7000 | T= 422.14K | elapsed:   78.7s  Step   8000 | T= 422.20K | elapsed:   78.7s  Step   9000 | T= 423.00K | elapsed:   78.7s  Step  10000 | T= 427.12K | elapsed:   78.7s  Step  11000 | T= 419.81K | elapsed:   78.7s  Step  12000 | T= 419.65K | elapsed:   78.7s  Step  13000 | T= 425.15K | elapsed:   78.7s  Step  14000 | T= 424.27K | elapsed:   78.7s  Step  15000 | T= 424.16K | elapsed:   78.7s  Step  16000 | T= 420.99K | elapsed:   78.7s  Step  17000 | T= 427.15K | elapsed:   78.7s  Step  18000 | T= 420.04K | elapsed:   78.7s  Step  19000 | T= 418.54K | elapsed:   78.7s  Step  20000 | T= 420.52K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 420.52K | elapsed:  286.7s  Step  21000 | T= 424.77K | elapsed:  286.7s  Step  22000 | T= 421.81K | elapsed:  286.7s  Step  23000 | T= 424.17K | elapsed:  286.7s  Step  24000 | T= 421.47K | elapsed:  286.7s  Step  25000 | T= 422.22K | elapsed:  286.7s  Step  26000 | T= 420.13K | elapsed:  286.7s  Step  27000 | T= 424.32K | elapsed:  286.7s  Step  28000 | T= 424.40K | elapsed:  286.7s  Step  29000 | T= 422.30K | elapsed:  286.7s  Step  30000 | T= 418.19K | elapsed:  286.7s  Step  31000 | T= 425.77K | elapsed:  286.7s  Step  32000 | T= 417.28K | elapsed:  286.7s  Step  33000 | T= 421.35K | elapsed:  286.7s  Step  34000 | T= 422.55K | elapsed:  286.7s  Step  35000 | T= 426.60K | elapsed:  286.7s  Step  36000 | T= 425.29K | elapsed:  286.7s  Step  37000 | T= 418.83K | elapsed:  286.7s  Step  38000 | T= 427.62K | elapsed:  286.7s  Step  39000 | T= 422.11K | elapsed:  286.7s  Step  40000 | T= 421.84K | elapsed:  286.7s  Step  41000 | T= 422.95K | elapsed:  286.7s  Step  42000 | T= 424.81K | elapsed:  286.7s  Step  43000 | T= 417.05K | elapsed:  286.7s  Step  44000 | T= 424.40K | elapsed:  286.7s  Step  45000 | T= 422.45K | elapsed:  286.7s  Step  46000 | T= 421.01K | elapsed:  286.7s  Step  47000 | T= 421.84K | elapsed:  286.7s  Step  48000 | T= 422.89K | elapsed:  286.7s  Step  49000 | T= 418.29K | elapsed:  286.7s  Step  50000 | T= 424.26K | elapsed:  286.7s  Step  51000 | T= 425.20K | elapsed:  286.7s  Step  52000 | T= 425.94K | elapsed:  286.7s  Step  53000 | T= 424.77K | elapsed:  286.7s  Step  54000 | T= 421.58K | elapsed:  286.7s  Step  55000 | T= 422.13K | elapsed:  286.7s  Step  56000 | T= 422.91K | elapsed:  286.7s  Step  57000 | T= 422.91K | elapsed:  286.7s  Step  58000 | T= 418.66K | elapsed:  286.7s  Step  59000 | T= 427.07K | elapsed:  286.7s  Step  60000 | T= 418.85K | elapsed:  286.7s  Step  61000 | T= 420.73K | elapsed:  286.7s  Step  62000 | T= 422.51K | elapsed:  286.7s  Step  63000 | T= 421.49K | elapsed:  286.7s  Step  64000 | T= 424.45K | elapsed:  286.7s  Step  65000 | T= 424.30K | elapsed:  286.7s  Step  66000 | T= 426.76K | elapsed:  286.7s  Step  67000 | T= 422.86K | elapsed:  286.7s  Step  68000 | T= 424.08K | elapsed:  286.7s  Step  69000 | T= 422.28K | elapsed:  286.7s  Step  70000 | T= 418.85K | elapsed:  286.7s
-LAMMPS completed (286.7s)
-  Read RDF from timestep 70000 (200 bins)
-
-χ² = 18463.461628
-R-factor = 0.325927
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.020, 0.035] kcal/mol
-  GaIn: U ∈ [-0.004, 0.006] kcal/mol
-  InIn: U ∈ [-0.000, 0.000] kcal/mol
-Saved plot: outputs/epsr_iter002.png
-
-======================================================================
-ITERATION 3/100
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter003.log
-  Log: outputs/lammps_iter003.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step    105 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.0s  Step   1000 | T= 325.94K | elapsed:   16.0s  Step   2000 | T= 429.45K | elapsed:   16.0s  Step   3000 | T= 422.87K | elapsed:   16.0s  Step   4000 | T= 422.27K | elapsed:   16.0s  Step   5000 | T= 427.36K | elapsed:   16.0s  Step   5000 | T= 427.36K | elapsed:   78.7s  Step   6000 | T= 424.19K | elapsed:   78.7s  Step   7000 | T= 420.69K | elapsed:   78.7s  Step   8000 | T= 418.85K | elapsed:   78.7s  Step   9000 | T= 422.83K | elapsed:   78.7s  Step  10000 | T= 420.67K | elapsed:   78.7s  Step  11000 | T= 424.50K | elapsed:   78.7s  Step  12000 | T= 423.48K | elapsed:   78.7s  Step  13000 | T= 426.89K | elapsed:   78.7s  Step  14000 | T= 421.67K | elapsed:   78.7s  Step  15000 | T= 422.34K | elapsed:   78.7s  Step  16000 | T= 425.31K | elapsed:   78.7s  Step  17000 | T= 425.74K | elapsed:   78.7s  Step  18000 | T= 428.07K | elapsed:   78.7s  Step  19000 | T= 424.99K | elapsed:   78.7s  Step  20000 | T= 417.69K | elapsed:   78.7s======================================================================
-EPSR Engine - Empirical Potential Structure Refinement
-======================================================================
-Temperature: 423.15 K (150.0°C)
-Density: 0.042000 atoms/Å³
-Composition: {'Ga': 0.858, 'In': 0.142}
-Scattering lengths: {'Ga': 7.288, 'In': 4.061} fm
-
-Weighting factors:
-  GaGa: 0.8383
-  GaIn: 0.1546
-  InIn: 0.0071
-
-Potential grid: 2.0 - 12.0 Å (200 points)
-Update method: MOMENTUM
-Momentum β: 0.9
-Learning rate α: 0.3
-Max iterations: 50
-Convergence tolerance: χ² < 250.0
-
-Experimental data: data/g_exp_cleaned.dat
-  161 data points, r ∈ [2.04, 11.93] Å
-======================================================================
-
-======================================================================
-ITERATION 1/50
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter001.log
-  Log: outputs/lammps_iter001.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step    126 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 323.47K | elapsed:   16.5s  Step   2000 | T= 431.51K | elapsed:   16.5s  Step   3000 | T= 424.06K | elapsed:   16.5s  Step   4000 | T= 423.08K | elapsed:   16.5s  Step   5000 | T= 421.65K | elapsed:   16.5s  Step   5000 | T= 421.65K | elapsed:   78.7s  Step   6000 | T= 421.48K | elapsed:   78.7s  Step   7000 | T= 420.00K | elapsed:   78.7s  Step   8000 | T= 418.94K | elapsed:   78.7s  Step   9000 | T= 429.64K | elapsed:   78.7s  Step  10000 | T= 422.49K | elapsed:   78.7s  Step  11000 | T= 422.62K | elapsed:   78.7s  Step  12000 | T= 423.52K | elapsed:   78.7s  Step  13000 | T= 424.40K | elapsed:   78.7s  Step  14000 | T= 422.52K | elapsed:   78.7s  Step  15000 | T= 429.74K | elapsed:   78.7s  Step  16000 | T= 425.30K | elapsed:   78.7s  Step  17000 | T= 421.22K | elapsed:   78.7s  Step  18000 | T= 422.00K | elapsed:   78.7s  Step  19000 | T= 424.55K | elapsed:   78.7s  Step  20000 | T= 424.19K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 424.19K | elapsed:  286.7s  Step  21000 | T= 422.96K | elapsed:  286.7s  Step  22000 | T= 423.16K | elapsed:  286.7s  Step  23000 | T= 422.23K | elapsed:  286.7s  Step  24000 | T= 426.19K | elapsed:  286.7s  Step  25000 | T= 419.28K | elapsed:  286.7s  Step  26000 | T= 424.43K | elapsed:  286.7s  Step  27000 | T= 423.55K | elapsed:  286.7s  Step  28000 | T= 426.74K | elapsed:  286.7s  Step  29000 | T= 425.34K | elapsed:  286.7s  Step  30000 | T= 424.62K | elapsed:  286.7s  Step  31000 | T= 422.93K | elapsed:  286.7s  Step  32000 | T= 422.08K | elapsed:  286.7s  Step  33000 | T= 417.02K | elapsed:  286.7s  Step  34000 | T= 424.83K | elapsed:  286.7s  Step  35000 | T= 423.75K | elapsed:  286.7s  Step  36000 | T= 422.64K | elapsed:  286.7s  Step  37000 | T= 424.85K | elapsed:  286.7s  Step  38000 | T= 424.80K | elapsed:  286.7s  Step  39000 | T= 423.53K | elapsed:  286.7s  Step  40000 | T= 425.22K | elapsed:  286.7s  Step  41000 | T= 421.51K | elapsed:  286.7s  Step  42000 | T= 426.57K | elapsed:  286.7s  Step  43000 | T= 420.61K | elapsed:  286.7s  Step  44000 | T= 422.51K | elapsed:  286.7s  Step  45000 | T= 423.90K | elapsed:  286.7s  Step  46000 | T= 422.50K | elapsed:  286.7s  Step  47000 | T= 423.00K | elapsed:  286.7s  Step  48000 | T= 421.28K | elapsed:  286.7s  Step  49000 | T= 426.43K | elapsed:  286.7s  Step  50000 | T= 422.94K | elapsed:  286.7s  Step  51000 | T= 425.15K | elapsed:  286.7s  Step  52000 | T= 424.41K | elapsed:  286.7s  Step  53000 | T= 426.54K | elapsed:  286.7s  Step  54000 | T= 424.42K | elapsed:  286.7s  Step  55000 | T= 422.58K | elapsed:  286.7s  Step  56000 | T= 423.84K | elapsed:  286.7s  Step  57000 | T= 418.77K | elapsed:  286.7s  Step  58000 | T= 422.10K | elapsed:  286.7s  Step  59000 | T= 423.97K | elapsed:  286.7s  Step  60000 | T= 426.61K | elapsed:  286.7s  Step  61000 | T= 423.23K | elapsed:  286.7s  Step  62000 | T= 424.50K | elapsed:  286.7s  Step  63000 | T= 422.42K | elapsed:  286.7s  Step  64000 | T= 423.98K | elapsed:  286.7s  Step  65000 | T= 419.48K | elapsed:  286.7s  Step  66000 | T= 418.38K | elapsed:  286.7s  Step  67000 | T= 425.81K | elapsed:  286.7s  Step  68000 | T= 423.17K | elapsed:  286.7s  Step  69000 | T= 421.98K | elapsed:  286.7s  Step  70000 | T= 425.52K | elapsed:  286.7s  Step  71000 | T= 422.36K | elapsed:  494.8s  Step  72000 | T= 424.27K | elapsed:  494.8s  Step  73000 | T= 420.30K | elapsed:  494.8s  Step  74000 | T= 424.00K | elapsed:  494.8s  Step  75000 | T= 426.45K | elapsed:  494.8s  Step  76000 | T= 423.95K | elapsed:  494.8s  Step  77000 | T= 421.38K | elapsed:  494.8s  Step  78000 | T= 420.67K | elapsed:  494.8s  Step  79000 | T= 422.87K | elapsed:  494.8s  Step  80000 | T= 419.37K | elapsed:  494.8s  Step  81000 | T= 427.39K | elapsed:  494.8s  Step  82000 | T= 425.30K | elapsed:  494.8s  Step  83000 | T= 423.37K | elapsed:  494.8s  Step  84000 | T= 417.71K | elapsed:  494.8s  Step  85000 | T= 420.98K | elapsed:  494.8s  Step  86000 | T= 422.43K | elapsed:  494.8s  Step  87000 | T= 421.76K | elapsed:  494.8s  Step  88000 | T= 421.77K | elapsed:  494.8s  Step  89000 | T= 419.41K | elapsed:  494.8s  Step  90000 | T= 421.38K | elapsed:  494.8s  Step  91000 | T= 425.07K | elapsed:  494.8s  Step  92000 | T= 425.62K | elapsed:  494.8s  Step  93000 | T= 423.36K | elapsed:  494.8s  Step  94000 | T= 425.38K | elapsed:  494.8s  Step  95000 | T= 423.22K | elapsed:  494.8s  Step  96000 | T= 417.42K | elapsed:  494.8s  Step  97000 | T= 418.11K | elapsed:  494.8s  Step  98000 | T= 422.38K | elapsed:  494.8s  Step  99000 | T= 423.33K | elapsed:  494.8s  Step 100000 | T= 420.59K | elapsed:  494.8s  Step 101000 | T= 420.51K | elapsed:  494.8s  Step 102000 | T= 421.73K | elapsed:  494.8s  Step 103000 | T= 419.18K | elapsed:  494.8s  Step 104000 | T= 426.95K | elapsed:  494.8s  Step 105000 | T= 418.32K | elapsed:  494.8s  Step 106000 | T= 421.62K | elapsed:  494.8s  Step 107000 | T= 420.11K | elapsed:  494.8s  Step 108000 | T= 421.29K | elapsed:  494.8s  Step 109000 | T= 427.56K | elapsed:  494.8s  Step 110000 | T= 423.18K | elapsed:  494.8s  Step 111000 | T= 422.22K | elapsed:  494.8s  Step 112000 | T= 419.04K | elapsed:  494.8s  Step 113000 | T= 425.10K | elapsed:  494.8s  Step 114000 | T= 424.05K | elapsed:  494.8s  Step 115000 | T= 423.60K | elapsed:  494.8s  Step 116000 | T= 418.97K | elapsed:  494.8s  Step 117000 | T= 421.99K | elapsed:  494.8s  Step 118000 | T= 427.89K | elapsed:  494.8s  Step 119000 | T= 421.26K | elapsed:  494.8s  Step 120000 | T= 422.22K | elapsed:  494.8s
-LAMMPS completed (494.8s)
-  Averaging RDF over last 80 blocks (out of 100 total)
-  Averaged RDF (200 bins)
-
-χ² = 18483.717175
-R-factor = 0.325447
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.051, 0.102] kcal/mol
-  GaIn: U ∈ [-0.009, 0.019] kcal/mol
-  InIn: U ∈ [-0.000, 0.001] kcal/mol
-Saved plot: outputs/epsr_iter001.png
-
-======================================================================
-ITERATION 2/50
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter002.log
-  Log: outputs/lammps_iter002.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step    123 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 324.29K | elapsed:   16.5s  Step   2000 | T= 429.89K | elapsed:   16.5s  Step   3000 | T= 422.68K | elapsed:   16.5s  Step   4000 | T= 422.07K | elapsed:   16.5s  Step   5000 | T= 426.13K | elapsed:   16.5s  Step   5000 | T= 426.13K | elapsed:   78.7s  Step   6000 | T= 425.39K | elapsed:   78.7s  Step   7000 | T= 424.76K | elapsed:   78.7s  Step   8000 | T= 425.13K | elapsed:   78.7s  Step   9000 | T= 421.92K | elapsed:   78.7s  Step  10000 | T= 422.13K | elapsed:   78.7s  Step  11000 | T= 425.55K | elapsed:   78.7s  Step  12000 | T= 417.14K | elapsed:   78.7s  Step  13000 | T= 424.81K | elapsed:   78.7s  Step  14000 | T= 424.80K | elapsed:   78.7s  Step  15000 | T= 424.89K | elapsed:   78.7s  Step  16000 | T= 427.50K | elapsed:   78.7s  Step  17000 | T= 426.17K | elapsed:   78.7s  Step  18000 | T= 427.41K | elapsed:   78.7s  Step  19000 | T= 420.38K | elapsed:   78.7s  Step  20000 | T= 423.37K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 423.37K | elapsed:  286.7s  Step  21000 | T= 420.11K | elapsed:  286.7s  Step  22000 | T= 422.34K | elapsed:  286.7s  Step  23000 | T= 421.07K | elapsed:  286.7s  Step  24000 | T= 421.76K | elapsed:  286.7s  Step  25000 | T= 420.37K | elapsed:  286.7s  Step  26000 | T= 421.62K | elapsed:  286.7s  Step  27000 | T= 422.81K | elapsed:  286.7s  Step  28000 | T= 424.70K | elapsed:  286.7s  Step  29000 | T= 423.76K | elapsed:  286.7s  Step  30000 | T= 424.23K | elapsed:  286.7s  Step  31000 | T= 421.31K | elapsed:  286.7s  Step  32000 | T= 421.25K | elapsed:  286.7s  Step  33000 | T= 423.89K | elapsed:  286.7s  Step  34000 | T= 421.73K | elapsed:  286.7s  Step  35000 | T= 422.58K | elapsed:  286.7s  Step  36000 | T= 422.44K | elapsed:  286.7s  Step  37000 | T= 419.19K | elapsed:  286.7s  Step  38000 | T= 424.63K | elapsed:  286.7s  Step  39000 | T= 421.65K | elapsed:  286.7s  Step  40000 | T= 421.35K | elapsed:  286.7s  Step  41000 | T= 422.60K | elapsed:  286.7s  Step  42000 | T= 422.41K | elapsed:  286.7s  Step  43000 | T= 419.79K | elapsed:  286.7s  Step  44000 | T= 425.58K | elapsed:  286.7s  Step  45000 | T= 421.47K | elapsed:  286.7s  Step  46000 | T= 424.89K | elapsed:  286.7s  Step  47000 | T= 424.97K | elapsed:  286.7s  Step  48000 | T= 423.57K | elapsed:  286.7s  Step  49000 | T= 424.06K | elapsed:  286.7s  Step  50000 | T= 425.97K | elapsed:  286.7s  Step  51000 | T= 423.24K | elapsed:  286.7s  Step  52000 | T= 420.57K | elapsed:  286.7s  Step  53000 | T= 425.66K | elapsed:  286.7s  Step  54000 | T= 423.53K | elapsed:  286.7s  Step  55000 | T= 424.33K | elapsed:  286.7s  Step  56000 | T= 418.93K | elapsed:  286.7s  Step  57000 | T= 425.17K | elapsed:  286.7s  Step  58000 | T= 423.53K | elapsed:  286.7s  Step  59000 | T= 424.45K | elapsed:  286.7s  Step  60000 | T= 422.32K | elapsed:  286.7s  Step  61000 | T= 423.67K | elapsed:  286.7s  Step  62000 | T= 418.72K | elapsed:  286.7s  Step  63000 | T= 426.29K | elapsed:  286.7s  Step  64000 | T= 417.17K | elapsed:  286.7s  Step  65000 | T= 421.26K | elapsed:  286.7s  Step  66000 | T= 426.56K | elapsed:  286.7s  Step  67000 | T= 422.83K | elapsed:  286.7s  Step  68000 | T= 422.50K | elapsed:  286.7s  Step  69000 | T= 420.45K | elapsed:  286.7s  Step  70000 | T= 423.58K | elapsed:  286.7s  Step  71000 | T= 422.64K | elapsed:  494.8s  Step  72000 | T= 422.06K | elapsed:  494.8s  Step  73000 | T= 424.04K | elapsed:  494.8s  Step  74000 | T= 421.55K | elapsed:  494.8s  Step  75000 | T= 428.65K | elapsed:  494.8s  Step  76000 | T= 422.39K | elapsed:  494.8s  Step  77000 | T= 423.71K | elapsed:  494.8s  Step  78000 | T= 423.79K | elapsed:  494.8s  Step  79000 | T= 424.51K | elapsed:  494.8s  Step  80000 | T= 422.47K | elapsed:  494.8s  Step  81000 | T= 422.82K | elapsed:  494.8s  Step  82000 | T= 425.43K | elapsed:  494.8s  Step  83000 | T= 419.14K | elapsed:  494.8s  Step  84000 | T= 421.07K | elapsed:  494.8s  Step  85000 | T= 421.59K | elapsed:  494.8s  Step  86000 | T= 421.77K | elapsed:  494.8s  Step  87000 | T= 421.29K | elapsed:  494.8s  Step  88000 | T= 417.09K | elapsed:  494.8s  Step  89000 | T= 427.49K | elapsed:  494.8s  Step  90000 | T= 428.50K | elapsed:  494.8s  Step  91000 | T= 421.95K | elapsed:  494.8s  Step  92000 | T= 422.67K | elapsed:  494.8s  Step  93000 | T= 424.20K | elapsed:  494.8s  Step  94000 | T= 422.44K | elapsed:  494.8s  Step  95000 | T= 419.98K | elapsed:  494.8s  Step  96000 | T= 421.46K | elapsed:  494.8s  Step  97000 | T= 421.22K | elapsed:  494.8s  Step  98000 | T= 424.31K | elapsed:  494.8s  Step  99000 | T= 422.69K | elapsed:  494.8s  Step 100000 | T= 421.48K | elapsed:  494.8s  Step 101000 | T= 425.98K | elapsed:  494.8s  Step 102000 | T= 419.46K | elapsed:  494.8s  Step 103000 | T= 423.02K | elapsed:  494.8s  Step 104000 | T= 429.16K | elapsed:  494.8s  Step 105000 | T= 421.32K | elapsed:  494.8s  Step 106000 | T= 423.68K | elapsed:  494.8s  Step 107000 | T= 421.69K | elapsed:  494.8s  Step 108000 | T= 417.98K | elapsed:  494.8s  Step 109000 | T= 423.91K | elapsed:  494.8s  Step 110000 | T= 425.06K | elapsed:  494.8s  Step 111000 | T= 424.68K | elapsed:  494.8s  Step 112000 | T= 425.45K | elapsed:  494.8s  Step 113000 | T= 419.63K | elapsed:  494.8s  Step 114000 | T= 419.32K | elapsed:  494.8s  Step 115000 | T= 424.99K | elapsed:  494.8s  Step 116000 | T= 420.03K | elapsed:  494.8s  Step 117000 | T= 419.64K | elapsed:  494.8s  Step 118000 | T= 418.36K | elapsed:  494.8s  Step 119000 | T= 428.71K | elapsed:  494.8s  Step 120000 | T= 421.91K | elapsed:  494.8s
-LAMMPS completed (495.3s)
-  Averaging RDF over last 80 blocks (out of 100 total)
-  Averaged RDF (200 bins)
-
-χ² = 18766.293850
-R-factor = 0.330042
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.134, 0.235] kcal/mol
-  GaIn: U ∈ [-0.025, 0.043] kcal/mol
-  InIn: U ∈ [-0.001, 0.002] kcal/mol
-Saved plot: outputs/epsr_iter002.png
-
-======================================================================
-ITERATION 3/50
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter003.log
-  Log: outputs/lammps_iter003.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step     99 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 327.69K | elapsed:   16.5s  Step   2000 | T= 431.98K | elapsed:   16.5s  Step   3000 | T= 423.65K | elapsed:   16.5s  Step   4000 | T= 422.51K | elapsed:   16.5s  Step   5000 | T= 426.40K | elapsed:   16.5s  Step   5000 | T= 426.40K | elapsed:   78.7s  Step   6000 | T= 425.57K | elapsed:   78.7s  Step   7000 | T= 423.35K | elapsed:   78.7s  Step   8000 | T= 425.18K | elapsed:   78.7s  Step   9000 | T= 423.96K | elapsed:   78.7s  Step  10000 | T= 426.17K | elapsed:   78.7s  Step  11000 | T= 423.67K | elapsed:   78.7s  Step  12000 | T= 419.37K | elapsed:   78.7s  Step  13000 | T= 423.99K | elapsed:   78.7s  Step  14000 | T= 424.17K | elapsed:   78.7s  Step  15000 | T= 420.25K | elapsed:   78.7s  Step  16000 | T= 426.59K | elapsed:   78.7s  Step  17000 | T= 419.90K | elapsed:   78.7s  Step  18000 | T= 422.35K | elapsed:   78.7s  Step  19000 | T= 425.68K | elapsed:   78.7s  Step  20000 | T= 425.13K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 425.13K | elapsed:  286.8s  Step  21000 | T= 424.38K | elapsed:  286.8s  Step  22000 | T= 421.25K | elapsed:  286.8s  Step  23000 | T= 420.68K | elapsed:  286.8s  Step  24000 | T= 423.87K | elapsed:  286.8s  Step  25000 | T= 426.56K | elapsed:  286.8s  Step  26000 | T= 423.28K | elapsed:  286.8s  Step  27000 | T= 420.87K | elapsed:  286.8s  Step  28000 | T= 424.56K | elapsed:  286.8s  Step  29000 | T= 421.74K | elapsed:  286.8s  Step  30000 | T= 422.69K | elapsed:  286.8s  Step  31000 | T= 429.13K | elapsed:  286.8s  Step  32000 | T= 423.30K | elapsed:  286.8s  Step  33000 | T= 422.07K | elapsed:  286.8s  Step  34000 | T= 424.40K | elapsed:  286.8s  Step  35000 | T= 421.86K | elapsed:  286.8s  Step  36000 | T= 426.73K | elapsed:  286.8s  Step  37000 | T= 422.62K | elapsed:  286.8s  Step  38000 | T= 420.37K | elapsed:  286.8s  Step  39000 | T= 420.02K | elapsed:  286.8s  Step  40000 | T= 424.53K | elapsed:  286.8s  Step  41000 | T= 426.07K | elapsed:  286.8s  Step  42000 | T= 429.40K | elapsed:  286.8s  Step  43000 | T= 424.15K | elapsed:  286.8s  Step  44000 | T= 426.07K | elapsed:  286.8s  Step  45000 | T= 422.36K | elapsed:  286.8s  Step  46000 | T= 421.96K | elapsed:  286.8s  Step  47000 | T= 425.68K | elapsed:  286.8s  Step  48000 | T= 420.72K | elapsed:  286.8s  Step  49000 | T= 427.62K | elapsed:  286.8s  Step  50000 | T= 421.94K | elapsed:  286.8s  Step  51000 | T= 427.75K | elapsed:  286.8s  Step  52000 | T= 421.09K | elapsed:  286.8s  Step  53000 | T= 423.19K | elapsed:  286.8s  Step  54000 | T= 423.37K | elapsed:  286.8s  Step  55000 | T= 420.17K | elapsed:  286.8s  Step  56000 | T= 423.11K | elapsed:  286.8s  Step  57000 | T= 426.94K | elapsed:  286.8s  Step  58000 | T= 425.00K | elapsed:  286.8s  Step  59000 | T= 424.60K | elapsed:  286.8s  Step  60000 | T= 426.87K | elapsed:  286.8s  Step  61000 | T= 427.58K | elapsed:  286.8s  Step  62000 | T= 420.31K | elapsed:  286.8s  Step  63000 | T= 422.35K | elapsed:  286.8s  Step  64000 | T= 421.82K | elapsed:  286.8s  Step  65000 | T= 423.31K | elapsed:  286.8s  Step  66000 | T= 420.76K | elapsed:  286.8s  Step  67000 | T= 421.71K | elapsed:  286.8s  Step  68000 | T= 421.18K | elapsed:  286.8s  Step  69000 | T= 418.41K | elapsed:  286.8s  Step  70000 | T= 423.43K | elapsed:  286.8s  Step  71000 | T= 424.85K | elapsed:  494.8s  Step  72000 | T= 420.18K | elapsed:  494.8s  Step  73000 | T= 422.17K | elapsed:  494.8s  Step  74000 | T= 428.24K | elapsed:  494.8s  Step  75000 | T= 420.18K | elapsed:  494.8s  Step  76000 | T= 422.67K | elapsed:  494.8s  Step  77000 | T= 425.40K | elapsed:  494.8s  Step  78000 | T= 425.11K | elapsed:  494.8s  Step  79000 | T= 423.33K | elapsed:  494.8s  Step  80000 | T= 422.26K | elapsed:  494.8s  Step  81000 | T= 427.63K | elapsed:  494.8s  Step  82000 | T= 425.91K | elapsed:  494.8s  Step  83000 | T= 425.67K | elapsed:  494.8s  Step  84000 | T= 423.96K | elapsed:  494.8s  Step  85000 | T= 423.90K | elapsed:  494.8s  Step  86000 | T= 426.55K | elapsed:  494.8s  Step  87000 | T= 421.48K | elapsed:  494.8s  Step  88000 | T= 419.45K | elapsed:  494.8s  Step  89000 | T= 421.27K | elapsed:  494.8s  Step  90000 | T= 424.93K | elapsed:  494.8s  Step  91000 | T= 420.41K | elapsed:  494.8s  Step  92000 | T= 422.72K | elapsed:  494.8s  Step  93000 | T= 425.46K | elapsed:  494.8s  Step  94000 | T= 423.14K | elapsed:  494.8s  Step  95000 | T= 421.39K | elapsed:  494.8s  Step  96000 | T= 423.96K | elapsed:  494.8s  Step  97000 | T= 419.18K | elapsed:  494.8s  Step  98000 | T= 423.95K | elapsed:  494.8s  Step  99000 | T= 424.63K | elapsed:  494.8s  Step 100000 | T= 417.95K | elapsed:  494.8s  Step 101000 | T= 423.47K | elapsed:  494.8s  Step 102000 | T= 425.68K | elapsed:  494.8s  Step 103000 | T= 422.40K | elapsed:  494.8s  Step 104000 | T= 421.18K | elapsed:  494.8s  Step 105000 | T= 424.84K | elapsed:  494.8s  Step 106000 | T= 422.26K | elapsed:  494.8s  Step 107000 | T= 426.00K | elapsed:  494.8s  Step 108000 | T= 421.65K | elapsed:  494.8s  Step 109000 | T= 424.77K | elapsed:  494.8s  Step 110000 | T= 420.90K | elapsed:  494.8s  Step 111000 | T= 421.84K | elapsed:  494.8s  Step 112000 | T= 421.82K | elapsed:  494.8s  Step 113000 | T= 424.46K | elapsed:  494.8s  Step 114000 | T= 418.36K | elapsed:  494.8s  Step 115000 | T= 428.11K | elapsed:  494.8s  Step 116000 | T= 419.32K | elapsed:  494.8s  Step 117000 | T= 422.95K | elapsed:  494.8s  Step 118000 | T= 421.87K | elapsed:  494.8s  Step 119000 | T= 422.27K | elapsed:  494.8s  Step 120000 | T= 419.86K | elapsed:  494.8s
-LAMMPS completed (494.8s)
-  Averaging RDF over last 80 blocks (out of 100 total)
-  Averaged RDF (200 bins)
-
-χ² = 19479.329479
-R-factor = 0.337360
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.242, 0.386] kcal/mol
-  GaIn: U ∈ [-0.045, 0.071] kcal/mol
-  InIn: U ∈ [-0.002, 0.003] kcal/mol
-Saved plot: outputs/epsr_iter003.png
-
-======================================================================
-ITERATION 4/50
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter004.log
-  Log: outputs/lammps_iter004.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step     79 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 331.50K | elapsed:   16.5s  Step   2000 | T= 431.31K | elapsed:   16.5s  Step   3000 | T= 425.87K | elapsed:   16.5s  Step   4000 | T= 421.50K | elapsed:   16.5s  Step   5000 | T= 424.27K | elapsed:   16.5s  Step   5000 | T= 424.27K | elapsed:   78.7s  Step   6000 | T= 426.72K | elapsed:   78.7s  Step   7000 | T= 423.30K | elapsed:   78.7s  Step   8000 | T= 417.98K | elapsed:   78.7s  Step   9000 | T= 425.01K | elapsed:   78.7s  Step  10000 | T= 423.97K | elapsed:   78.7s  Step  11000 | T= 422.19K | elapsed:   78.7s  Step  12000 | T= 422.00K | elapsed:   78.7s  Step  13000 | T= 427.81K | elapsed:   78.7s  Step  14000 | T= 425.53K | elapsed:   78.7s  Step  15000 | T= 426.12K | elapsed:   78.7s  Step  16000 | T= 428.74K | elapsed:   78.7s  Step  17000 | T= 421.96K | elapsed:   78.7s  Step  18000 | T= 424.26K | elapsed:   78.7s  Step  19000 | T= 424.53K | elapsed:   78.7s  Step  20000 | T= 420.42K | elapsed:   78.7s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 420.42K | elapsed:  287.2s  Step  21000 | T= 421.88K | elapsed:  287.2s  Step  22000 | T= 426.64K | elapsed:  287.2s  Step  23000 | T= 422.68K | elapsed:  287.2s  Step  24000 | T= 425.81K | elapsed:  287.2s  Step  25000 | T= 423.69K | elapsed:  287.2s  Step  26000 | T= 423.27K | elapsed:  287.2s  Step  27000 | T= 422.49K | elapsed:  287.2s  Step  28000 | T= 420.30K | elapsed:  287.2s  Step  29000 | T= 423.43K | elapsed:  287.2s  Step  30000 | T= 420.20K | elapsed:  287.2s  Step  31000 | T= 423.41K | elapsed:  287.2s  Step  32000 | T= 425.11K | elapsed:  287.2s  Step  33000 | T= 417.94K | elapsed:  287.2s  Step  34000 | T= 422.02K | elapsed:  287.2s  Step  35000 | T= 421.32K | elapsed:  287.2s  Step  36000 | T= 422.46K | elapsed:  287.2s  Step  37000 | T= 427.42K | elapsed:  287.2s  Step  38000 | T= 425.62K | elapsed:  287.2s  Step  39000 | T= 420.64K | elapsed:  287.2s  Step  40000 | T= 421.30K | elapsed:  287.2s  Step  41000 | T= 424.58K | elapsed:  287.2s  Step  42000 | T= 423.42K | elapsed:  287.2s  Step  43000 | T= 422.24K | elapsed:  287.2s  Step  44000 | T= 423.53K | elapsed:  287.2s  Step  45000 | T= 422.23K | elapsed:  287.2s  Step  46000 | T= 423.83K | elapsed:  287.2s  Step  47000 | T= 422.62K | elapsed:  287.2s  Step  48000 | T= 422.17K | elapsed:  287.2s  Step  49000 | T= 422.84K | elapsed:  287.2s  Step  50000 | T= 427.02K | elapsed:  287.2s  Step  51000 | T= 420.97K | elapsed:  287.2s  Step  52000 | T= 418.94K | elapsed:  287.2s  Step  53000 | T= 421.24K | elapsed:  287.2s  Step  54000 | T= 424.86K | elapsed:  287.2s  Step  55000 | T= 423.28K | elapsed:  287.2s  Step  56000 | T= 422.42K | elapsed:  287.2s  Step  57000 | T= 421.76K | elapsed:  287.2s  Step  58000 | T= 427.42K | elapsed:  287.2s  Step  59000 | T= 418.62K | elapsed:  287.2s  Step  60000 | T= 420.72K | elapsed:  287.2s  Step  61000 | T= 424.08K | elapsed:  287.2s  Step  62000 | T= 422.74K | elapsed:  287.2s  Step  63000 | T= 424.08K | elapsed:  287.2s  Step  64000 | T= 425.02K | elapsed:  287.2s  Step  65000 | T= 428.83K | elapsed:  287.2s  Step  66000 | T= 420.55K | elapsed:  287.2s  Step  67000 | T= 419.84K | elapsed:  287.2s  Step  68000 | T= 422.73K | elapsed:  287.2s  Step  69000 | T= 423.76K | elapsed:  287.2s  Step  70000 | T= 424.98K | elapsed:  287.2s  Step  71000 | T= 424.81K | elapsed:  495.8s  Step  72000 | T= 424.24K | elapsed:  495.8s  Step  73000 | T= 423.10K | elapsed:  495.8s  Step  74000 | T= 426.49K | elapsed:  495.8s  Step  75000 | T= 419.86K | elapsed:  495.8s  Step  76000 | T= 426.94K | elapsed:  495.8s  Step  77000 | T= 422.82K | elapsed:  495.8s  Step  78000 | T= 424.01K | elapsed:  495.8s  Step  79000 | T= 424.36K | elapsed:  495.8s  Step  80000 | T= 421.85K | elapsed:  495.8s  Step  81000 | T= 424.40K | elapsed:  495.8s  Step  82000 | T= 421.96K | elapsed:  495.8s  Step  83000 | T= 425.97K | elapsed:  495.8s  Step  84000 | T= 421.21K | elapsed:  495.8s  Step  85000 | T= 424.94K | elapsed:  495.8s  Step  86000 | T= 422.94K | elapsed:  495.8s  Step  87000 | T= 422.96K | elapsed:  495.8s  Step  88000 | T= 424.32K | elapsed:  495.8s  Step  89000 | T= 423.73K | elapsed:  495.8s  Step  90000 | T= 423.32K | elapsed:  495.8s  Step  91000 | T= 422.57K | elapsed:  495.8s  Step  92000 | T= 421.55K | elapsed:  495.8s  Step  93000 | T= 418.45K | elapsed:  495.8s  Step  94000 | T= 425.37K | elapsed:  495.8s  Step  95000 | T= 419.54K | elapsed:  495.8s  Step  96000 | T= 420.71K | elapsed:  495.8s  Step  97000 | T= 422.92K | elapsed:  495.8s  Step  98000 | T= 421.21K | elapsed:  495.8s  Step  99000 | T= 428.80K | elapsed:  495.8s  Step 100000 | T= 429.62K | elapsed:  495.8s  Step 101000 | T= 426.75K | elapsed:  495.8s  Step 102000 | T= 421.81K | elapsed:  495.8s  Step 103000 | T= 419.31K | elapsed:  495.8s  Step 104000 | T= 426.04K | elapsed:  495.8s  Step 105000 | T= 426.29K | elapsed:  495.8s  Step 106000 | T= 425.64K | elapsed:  495.8s  Step 107000 | T= 426.05K | elapsed:  495.8s  Step 108000 | T= 420.51K | elapsed:  495.8s  Step 109000 | T= 425.02K | elapsed:  495.8s  Step 110000 | T= 421.85K | elapsed:  495.8s  Step 111000 | T= 425.38K | elapsed:  495.8s  Step 112000 | T= 423.85K | elapsed:  495.8s  Step 113000 | T= 424.05K | elapsed:  495.8s  Step 114000 | T= 421.62K | elapsed:  495.8s  Step 115000 | T= 420.31K | elapsed:  495.8s  Step 116000 | T= 420.91K | elapsed:  495.8s  Step 117000 | T= 419.33K | elapsed:  495.8s  Step 118000 | T= 421.60K | elapsed:  495.8s  Step 119000 | T= 422.15K | elapsed:  495.8s  Step 120000 | T= 424.57K | elapsed:  495.8s
-LAMMPS completed (495.8s)
-  Averaging RDF over last 80 blocks (out of 100 total)
-  Averaged RDF (200 bins)
-
-χ² = 19993.445396
-R-factor = 0.341425
-
-Updating empirical potentials (S(Q) method)...
-  Converted g_exp(r) → S_exp(Q) (300 Q points)
-  Warning: Using total g(r) for S(Q) (partial RDF not available)
-  GaGa: U ∈ [-0.372, 0.558] kcal/mol
-  GaIn: U ∈ [-0.069, 0.103] kcal/mol
-  InIn: U ∈ [-0.003, 0.005] kcal/mol
-Saved plot: outputs/epsr_iter004.png
-
-======================================================================
-ITERATION 5/50
-======================================================================
-Wrote data/ep_GaGa.table (label: EP_GAGA)
-Wrote data/ep_GaIn.table (label: EP_GAIN)
-Wrote data/ep_InIn.table (label: EP_ININ)
-Running LAMMPS with GPU 0: inputs/in.egain_epsr_H100
-  Command: lmp -k on g 1 -sf kk -in inputs/in.egain_epsr_H100 -log outputs/lammps_iter005.log
-  Log: outputs/lammps_iter005.log
-
-  print "========== Energy Minimization =========="
-
-  ========== Energy Minimization ==========
-  Step          Temp          PotEng         KinEng         TotEng         Press          Volume        Density          CPU
-  Step      0 | T= 423.15K | elapsed:    1.0s  Step     67 | T= 423.15K | elapsed:    1.0s
-  Minimization stats:
-
-  # ========== Equilibration (NVT) ==========
-
-  print "========== H100 GPU Equilibration =========="
-
-  ========== H100 GPU Equilibration ==========
-  Step      0 | T= 423.15K | elapsed:   16.5s  Step   1000 | T= 334.41K | elapsed:   16.5s  Step   2000 | T= 430.53K | elapsed:   16.5s  Step   3000 | T= 425.51K | elapsed:   16.5s  Step   4000 | T= 424.30K | elapsed:   16.5s  Step   5000 | T= 425.73K | elapsed:   16.5s  Step   5000 | T= 425.73K | elapsed:   79.2s  Step   6000 | T= 423.50K | elapsed:   79.2s  Step   7000 | T= 428.41K | elapsed:   79.2s  Step   8000 | T= 426.33K | elapsed:   79.2s  Step   9000 | T= 423.16K | elapsed:   79.2s  Step  10000 | T= 424.97K | elapsed:   79.2s  Step  11000 | T= 427.16K | elapsed:   79.2s  Step  12000 | T= 424.64K | elapsed:   79.2s  Step  13000 | T= 418.80K | elapsed:   79.2s  Step  14000 | T= 423.59K | elapsed:   79.2s  Step  15000 | T= 420.76K | elapsed:   79.2s  Step  16000 | T= 420.02K | elapsed:   79.2s  Step  17000 | T= 422.53K | elapsed:   79.2s  Step  18000 | T= 419.38K | elapsed:   79.2s  Step  19000 | T= 419.24K | elapsed:   79.2s  Step  20000 | T= 424.79K | elapsed:   79.2s
-  # ========== Production (NVT) ==========
-
-  print "========== H100 GPU Production run =========="
-
-  ========== H100 GPU Production run ==========
-  Step  20000 | T= 424.79K | elapsed:  287.8s  Step  21000 | T= 424.92K | elapsed:  287.8s  Step  22000 | T= 429.01K | elapsed:  287.8s  Step  23000 | T= 426.07K | elapsed:  287.8s  Step  24000 | T= 424.28K | elapsed:  287.8s  Step  25000 | T= 428.12K | elapsed:  287.8s  Step  26000 | T= 421.90K | elapsed:  287.8s  Step  27000 | T= 425.09K | elapsed:  287.8s  Step  28000 | T= 424.61K | elapsed:  287.8s  Step  29000 | T= 421.60K | elapsed:  287.8s  Step  30000 | T= 426.49K | elapsed:  287.8s  Step  31000 | T= 422.18K | elapsed:  287.8s  Step  32000 | T= 422.75K | elapsed:  287.8s  Step  33000 | T= 422.16K | elapsed:  287.8s  Step  34000 | T= 419.10K | elapsed:  287.8s  Step  35000 | T= 423.72K | elapsed:  287.8s  Step  36000 | T= 425.05K | elapsed:  287.8s  Step  37000 | T= 422.49K | elapsed:  287.8s  Step  38000 | T= 421.33K | elapsed:  287.8s  Step  39000 | T= 421.11K | elapsed:  287.8s  Step  40000 | T= 424.91K | elapsed:  287.8s  Step  41000 | T= 420.33K | elapsed:  287.8s  Step  42000 | T= 423.70K | elapsed:  287.8s  Step  43000 | T= 421.13K | elapsed:  287.8s  Step  44000 | T= 425.56K | elapsed:  287.8s  Step  45000 | T= 421.82K | elapsed:  287.8s  Step  46000 | T= 423.43K | elapsed:  287.8s  Step  47000 | T= 423.43K | elapsed:  287.8s  Step  48000 | T= 422.05K | elapsed:  287.8s  Step  49000 | T= 423.87K | elapsed:  287.8s  Step  50000 | T= 420.94K | elapsed:  287.8s  Step  51000 | T= 427.79K | elapsed:  287.8s  Step  52000 | T= 427.87K | elapsed:  287.8s  Step  53000 | T= 424.07K | elapsed:  287.8s  Step  54000 | T= 424.36K | elapsed:  287.8s  Step  55000 | T= 422.40K | elapsed:  287.8s  Step  56000 | T= 421.63K | elapsed:  287.8s  Step  57000 | T= 425.79K | elapsed:  287.8s  Step  58000 | T= 422.83K | elapsed:  287.8s  Step  59000 | T= 420.74K | elapsed:  287.8s  Step  60000 | T= 423.90K | elapsed:  287.8s  Step  61000 | T= 422.50K | elapsed:  287.8s  Step  62000 | T= 420.61K | elapsed:  287.8s  Step  63000 | T= 422.85K | elapsed:  287.8s  Step  64000 | T= 422.99K | elapsed:  287.8s  Step  65000 | T= 423.01K | elapsed:  287.8s  Step  66000 | T= 425.57K | elapsed:  287.8s  Step  67000 | T= 423.57K | elapsed:  287.8s  Step  68000 | T= 424.92K | elapsed:  287.8s  Step  69000 | T= 423.89K | elapsed:  287.8s  Step  70000 | T= 424.28K | elapsed:  287.8s  Step  71000 | T= 425.06K | elapsed:  496.3s  Step  72000 | T= 427.87K | elapsed:  496.3s  Step  73000 | T= 420.56K | elapsed:  496.3s  Step  74000 | T= 420.95K | elapsed:  496.3s  Step  75000 | T= 427.68K | elapsed:  496.3s  Step  76000 | T= 426.95K | elapsed:  496.3s  Step  77000 | T= 419.44K | elapsed:  496.3s  Step  78000 | T= 422.20K | elapsed:  496.3s  Step  79000 | T= 424.43K | elapsed:  496.3s  Step  80000 | T= 424.28K | elapsed:  496.3s  Step  81000 | T= 420.98K | elapsed:  496.3s  Step  82000 | T= 418.42K | elapsed:  496.3s  Step  83000 | T= 424.04K | elapsed:  496.3s  Step  84000 | T= 421.90K | elapsed:  496.3s  Step  85000 | T= 425.02K | elapsed:  496.3s  Step  86000 | T= 428.00K | elapsed:  496.3s  Step  87000 | T= 422.12K | elapsed:  496.3s  Step  88000 | T= 422.80K | elapsed:  496.3s  Step  89000 | T= 428.28K | elapsed:  496.3s  Step  90000 | T= 421.85K | elapsed:  496.3s  Step  91000 | T= 424.22K | elapsed:  496.3s  Step  92000 | T= 420.62K | elapsed:  496.3s  Step  93000 | T= 421.93K | elapsed:  496.3s  Step  94000 | T= 420.53K | elapsed:  496.3s  Step  95000 | T= 421.57K | elapsed:  496.3s  Step  96000 | T= 422.54K | elapsed:  496.3s  Step  97000 | T= 423.52K | elapsed:  496.3s  Step  98000 | T= 423.30K | elapsed:  496.3s  Step  99000 | T= 423.60K | elapsed:  496.3s  Step 100000 | T= 422.90K | elapsed:  496.3s  Step 101000 | T= 420.72K | elapsed:  496.3s  Step 102000 | T= 422.54K | elapsed:  496.3s  Step 103000 | T= 420.07K | elapsed:  496.3s  Step 104000 | T= 424.79K | elapsed:  496.3s  Step 105000 | T= 424.89K | elapsed:  496.3s  Step 106000 | T= 425.42K | elapsed:  496.3s  Step 107000 | T= 423.53K | elapsed:  496.3s  Step 108000 | T= 425.45K | elapsed:  496.3s  Step 109000 | T= 426.77K | elapsed:  496.3s  Step 110000 | T= 423.45K | elapsed:  496.3s  Step 111000 | T= 423.10K | elapsed:  496.3s  Step 112000 | T= 420.57K | elapsed:  496.3s  Step 113000 | T= 425.22K | elapsed:  496.3s  Step 114000 | T= 424.38K | elapsed:  496.3s  Step 115000 | T= 424.13K | elapsed:  496.3s  Step 116000 | T= 422.83K | elapsed:  496.3s  Step 117000 | T= 423.95K | elapsed:  496.3s  Step 118000 | T= 423.61K | elapsed:  496.3s  Step 119000 | T= 424.83K | elapsed:  496.3s  Step 120000 | T= 424.10K | elapsed:  496.3s
-LAMMPS completed (496.8s)
-  Averaging RDF over last 80 blocks (out of 100 total)
-  Averaged RDF (200 bins)
-
-χ² = 20127.318214
-R-factor = 0.342366
-
-✗ Stopping: χ² is consistently increasing (divergence)
-
-======================================================================
-EPSR COMPLETED
-======================================================================
-Converged: NO
-Iterations: 5
-Final χ²: 20127.318214
-Final R-factor: 0.342366
-Results saved to: outputs/final_ep.npz
-======================================================================
-
-✗ EPSR refinement did not converge.
-  Consider adjusting parameters (learning rate, max iterations, etc.)
