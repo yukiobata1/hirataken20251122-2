@@ -1,5 +1,5 @@
 
-# Grid Search Phase 2: Sigma_ratio=0.85, Epsilon_ratio=1.5
+# Grid Search Phase 2: Sigma_ratio=0.7, Epsilon_ratio=2.0
 units           real
 atom_style      atomic
 boundary        p p p
@@ -13,13 +13,13 @@ set             group all type/fraction 2 0.5 12345
 # Force Field
 pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 0.4300 2.7000
-pair_coeff      2 2 0.6450 2.2950
-pair_coeff      1 2 0.5266 2.4975
+pair_coeff      2 2 0.8600 1.8900
+pair_coeff      1 2 0.6081 2.2950
 
 # Settings
 neighbor        2.0 bin
 neigh_modify    delay 0 every 1 check yes
-velocity        all create 293.0 1000 dist gaussian
+velocity        all create 293.0 900 dist gaussian
 
 thermo          1000
 thermo_style    custom step temp press density
@@ -38,6 +38,6 @@ reset_timestep  0
 fix             nvt all nvt temp 293.0 293.0 100.0
 compute         myrdf all rdf 200 1 1 2 2 1 2 cutoff 12.0
 # Consistent averaging over full run
-fix             rdfout all ave/time 50 200 10000 c_myrdf[*] file grid_outputs/out_s85_e150.rdf mode vector
+fix             rdfout all ave/time 50 200 10000 c_myrdf[*] file grid_outputs/out_s70_e200.rdf mode vector
 
 run             10000

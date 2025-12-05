@@ -4,7 +4,7 @@ KOKKOS mode with Kokkos version 4.6.2 is enabled
   using 1 OpenMP thread(s) per MPI task
 package kokkos
 
-# Grid Search Phase 2: Sigma_ratio=0.85, Epsilon_ratio=1.5
+# Grid Search Phase 2: Sigma_ratio=0.7, Epsilon_ratio=2.0
 units           real
 atom_style      atomic
 boundary        p p p
@@ -31,13 +31,13 @@ Setting atom values ...
 # Force Field
 pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 0.4300 2.7000
-pair_coeff      2 2 0.6450 2.2950
-pair_coeff      1 2 0.5266 2.4975
+pair_coeff      2 2 0.8600 1.8900
+pair_coeff      1 2 0.6081 2.2950
 
 # Settings
 neighbor        2.0 bin
 neigh_modify    delay 0 every 1 check yes
-velocity        all create 293.0 1000 dist gaussian
+velocity        all create 293.0 900 dist gaussian
 
 thermo          1000
 thermo_style    custom step temp press density
@@ -63,43 +63,43 @@ WARNING: Fix MINIMIZE/kk not compatible with Kokkos sorting on device (src/KOKKO
 WARNING: Fix with atom-based arrays not compatible with Kokkos sorting on device, switching to classic host sorting (src/KOKKOS/atom_kokkos.cpp:218)
 Per MPI rank memory allocation (min/avg/max) = 9.489 | 9.489 | 9.489 Mbytes
    Step          Temp          Press         Density    
-         0   293            3.1305914e+15  6.0398583    
-       281   293           -5277.2612      6.0398583    
-Loop time of 0.123532 on 1 procs for 281 steps with 12000 atoms
+         0   293            1.8432788e+15  6.0398583    
+       364   293           -2548.9077      6.0398583    
+Loop time of 0.164165 on 1 procs for 364 steps with 12000 atoms
 
-100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+99.5% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 Minimization stats:
   Stopping criterion = energy tolerance
   Energy initial, next-to-last, final = 
-    2.62555959473153e+15  -43452.3376764045  -43455.7891246822
-  Force two-norm initial, final = 7.9785338e+16 12.255985
-  Force max component initial, final = 2.2652674e+16 2.3282023
-  Final line search alpha, max atom move = 0.033121837 0.077114335
-  Iterations, force evaluations = 281 301
+    1.54591818450251e+15  -45599.0894278218  -45603.0318039875
+  Force two-norm initial, final = 6.1310654e+16 25.605384
+  Force max component initial, final = 2.2652674e+16 7.46478
+  Final line search alpha, max atom move = 0.033539579 0.25036558
+  Iterations, force evaluations = 364 386
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.04897    | 0.04897    | 0.04897    |   0.0 | 39.64
-Neigh   | 0.021032   | 0.021032   | 0.021032   |   0.0 | 17.03
-Comm    | 0.012624   | 0.012624   | 0.012624   |   0.0 | 10.22
+Pair    | 0.063234   | 0.063234   | 0.063234   |   0.0 | 38.52
+Neigh   | 0.031112   | 0.031112   | 0.031112   |   0.0 | 18.95
+Comm    | 0.017296   | 0.017296   | 0.017296   |   0.0 | 10.54
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.04091    |            |       | 33.11
+Other   |            | 0.05252    |            |       | 31.99
 
 Nlocal:          12000 ave       12000 max       12000 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:          25380 ave       25380 max       25380 min
+Nghost:          25435 ave       25435 max       25435 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 Neighs:              0 ave           0 max           0 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-FullNghs:   7.1905e+06 ave  7.1905e+06 max  7.1905e+06 min
+FullNghs:  7.19371e+06 ave 7.19371e+06 max 7.19371e+06 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 
-Total # of neighbors = 7190496
-Ave neighs/atom = 599.208
-Neighbor list builds = 14
+Total # of neighbors = 7193708
+Ave neighs/atom = 599.47567
+Neighbor list builds = 20
 Dangerous builds = 0
 reset_timestep  0
 
@@ -107,41 +107,41 @@ reset_timestep  0
 fix             nvt all nvt temp 293.0 293.0 100.0
 run             5000
 Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
-Per MPI rank memory allocation (min/avg/max) = 6.877 | 6.877 | 6.877 Mbytes
+Per MPI rank memory allocation (min/avg/max) = 6.874 | 6.874 | 6.874 Mbytes
    Step          Temp          Press         Density    
-         0   293           -5277.2612      6.0398583    
-      1000   297.49077      4892.6155      6.0398583    
-      2000   293.15436      4865.6941      6.0398583    
-      3000   289.53571      4897.2983      6.0398583    
-      4000   290.38136      4754.8482      6.0398583    
-      5000   292.96374      4863.9056      6.0398583    
-Loop time of 1.09493 on 1 procs for 5000 steps with 12000 atoms
+         0   293           -2548.9077      6.0398583    
+      1000   297.85207      468.55659      6.0398583    
+      2000   294.05167      134.63543      6.0398583    
+      3000   293.99276      69.172839      6.0398583    
+      4000   290.8962      -39.212027      6.0398583    
+      5000   291.5134      -3.7789105      6.0398583    
+Loop time of 1.09735 on 1 procs for 5000 steps with 12000 atoms
 
-Performance: 394.545 ns/day, 0.061 hours/ns, 4566.494 timesteps/s, 54.798 Matom-step/s
+Performance: 393.676 ns/day, 0.061 hours/ns, 4556.436 timesteps/s, 54.677 Matom-step/s
 100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.059523   | 0.059523   | 0.059523   |   0.0 |  5.44
-Neigh   | 0.061336   | 0.061336   | 0.061336   |   0.0 |  5.60
-Comm    | 0.053066   | 0.053066   | 0.053066   |   0.0 |  4.85
-Output  | 0.00034605 | 0.00034605 | 0.00034605 |   0.0 |  0.03
-Modify  | 0.76766    | 0.76766    | 0.76766    |   0.0 | 70.11
-Other   |            | 0.153      |            |       | 13.97
+Pair    | 0.059431   | 0.059431   | 0.059431   |   0.0 |  5.42
+Neigh   | 0.063982   | 0.063982   | 0.063982   |   0.0 |  5.83
+Comm    | 0.053897   | 0.053897   | 0.053897   |   0.0 |  4.91
+Output  | 0.00035991 | 0.00035991 | 0.00035991 |   0.0 |  0.03
+Modify  | 0.76742    | 0.76742    | 0.76742    |   0.0 | 69.93
+Other   |            | 0.1523     |            |       | 13.88
 
 Nlocal:          12000 ave       12000 max       12000 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:          25531 ave       25531 max       25531 min
+Nghost:          25309 ave       25309 max       25309 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 Neighs:              0 ave           0 max           0 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-FullNghs:  7.18337e+06 ave 7.18337e+06 max 7.18337e+06 min
+FullNghs:  7.19127e+06 ave 7.19127e+06 max 7.19127e+06 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 
-Total # of neighbors = 7183366
-Ave neighs/atom = 598.61383
-Neighbor list builds = 41
+Total # of neighbors = 7191268
+Ave neighs/atom = 599.27233
+Neighbor list builds = 42
 Dangerous builds = 0
 unfix           nvt
 reset_timestep  0
@@ -150,7 +150,7 @@ reset_timestep  0
 fix             nvt all nvt temp 293.0 293.0 100.0
 compute         myrdf all rdf 200 1 1 2 2 1 2 cutoff 12.0
 # Consistent averaging over full run
-fix             rdfout all ave/time 50 200 10000 c_myrdf[*] file grid_outputs/out_s85_e150.rdf mode vector
+fix             rdfout all ave/time 50 200 10000 c_myrdf[*] file grid_outputs/out_s70_e200.rdf mode vector
 
 run             10000
 Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
@@ -171,45 +171,45 @@ Neighbor list info ...
       pair build: half/bin/atomonly/newtoff
       stencil: full/bin/3d
       bin: standard
-Per MPI rank memory allocation (min/avg/max) = 8.458 | 8.458 | 8.458 Mbytes
+Per MPI rank memory allocation (min/avg/max) = 8.448 | 8.448 | 8.448 Mbytes
    Step          Temp          Press         Density    
-         0   292.96374      4863.9056      6.0398583    
-      1000   297.20431      4704.5124      6.0398583    
-      2000   290.88605      4656.0981      6.0398583    
-      3000   295.0495       4755.4174      6.0398583    
-      4000   291.81658      4817.6676      6.0398583    
-      5000   294.39467      4880.3539      6.0398583    
-      6000   295.3706       4853.0421      6.0398583    
-      7000   294.69147      4934.0633      6.0398583    
-      8000   292.29902      4797.5878      6.0398583    
-      9000   292.04732      4916.4955      6.0398583    
-     10000   294.5508       4791.1711      6.0398583    
-Loop time of 35.6488 on 1 procs for 10000 steps with 12000 atoms
+         0   291.5134      -3.7789105      6.0398583    
+      1000   294.07404     -6.0788206      6.0398583    
+      2000   292.68419      86.930273      6.0398583    
+      3000   293.05066      200.96241      6.0398583    
+      4000   289.508        25.178662      6.0398583    
+      5000   294.7286      -52.525799      6.0398583    
+      6000   292.52954      43.939811      6.0398583    
+      7000   291.72851     -28.541246      6.0398583    
+      8000   292.3814      -115.94624      6.0398583    
+      9000   293.37908     -146.21526      6.0398583    
+     10000   293.85936      92.246106      6.0398583    
+Loop time of 35.9091 on 1 procs for 10000 steps with 12000 atoms
 
-Performance: 24.236 ns/day, 0.990 hours/ns, 280.515 timesteps/s, 3.366 Matom-step/s
+Performance: 24.061 ns/day, 0.997 hours/ns, 278.481 timesteps/s, 3.342 Matom-step/s
 100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.15117    | 0.15117    | 0.15117    |   0.0 |  0.42
-Neigh   | 0.14857    | 0.14857    | 0.14857    |   0.0 |  0.42
-Comm    | 0.11613    | 0.11613    | 0.11613    |   0.0 |  0.33
-Output  | 0.003048   | 0.003048   | 0.003048   |   0.0 |  0.01
-Modify  | 34.926     | 34.926     | 34.926     |   0.0 | 97.97
-Other   |            | 0.3041     |            |       |  0.85
+Pair    | 0.1517     | 0.1517     | 0.1517     |   0.0 |  0.42
+Neigh   | 0.15201    | 0.15201    | 0.15201    |   0.0 |  0.42
+Comm    | 0.11792    | 0.11792    | 0.11792    |   0.0 |  0.33
+Output  | 0.0029703  | 0.0029703  | 0.0029703  |   0.0 |  0.01
+Modify  | 35.181     | 35.181     | 35.181     |   0.0 | 97.97
+Other   |            | 0.3034     |            |       |  0.84
 
 Nlocal:          12000 ave       12000 max       12000 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:          25508 ave       25508 max       25508 min
+Nghost:          25401 ave       25401 max       25401 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-Neighs:    4.46641e+06 ave 4.46641e+06 max 4.46641e+06 min
+Neighs:    4.47552e+06 ave 4.47552e+06 max 4.47552e+06 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
-FullNghs:  7.18276e+06 ave 7.18276e+06 max 7.18276e+06 min
+FullNghs:  7.19277e+06 ave 7.19277e+06 max 7.19277e+06 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
 
-Total # of neighbors = 7182756
-Ave neighs/atom = 598.563
-Neighbor list builds = 82
+Total # of neighbors = 7192768
+Ave neighs/atom = 599.39733
+Neighbor list builds = 84
 Dangerous builds = 0
 Total wall time: 0:00:37
