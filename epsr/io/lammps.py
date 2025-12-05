@@ -263,6 +263,64 @@ class LAMMPSInterface:
 
         return r, g_total, g_partial
 
+    def read_log_thermo(self, log_file: str) -> Dict[str, np.ndarray]:
+        """
+        Parse thermodynamic data from LAMMPS log file.
+
+        Parameters
+        ----------
+        log_file : str
+            Path to LAMMPS log file
+
+        Returns
+        -------
+        data : dict
+            Dictionary of arrays, e.g., {'Step': [...], 'Temp': [...], 'Density': [...]}
+        """
+        if not os.path.exists(log_file):
+            print(f"Warning: Log file {log_file} not found.")
+            return {}
+
+        data = {}
+        headers = []
+        reading_thermo = False
+
+        with open(log_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+
+                # Detect start of thermo output
+                if line.startswith("Step"):
+                    headers = line.split()
+                    for h in headers:
+                        if h not in data:
+                            data[h] = []
+                    reading_thermo = True
+                    continue
+
+                # Stop reading at end of run or loop summary
+                if reading_thermo and (line.startswith("Loop time") or line.startswith("Performance:")):
+                    reading_thermo = False
+                    continue
+
+                # Read data
+                if reading_thermo:
+                    try:
+                        parts = line.split()
+                        if len(parts) == len(headers):
+                            for i, val in enumerate(parts):
+                                try:
+                                    data[headers[i]].append(float(val))
+                                except ValueError:
+                                    pass
+                    except Exception:
+                        pass
+
+        # Convert lists to arrays
+        return {k: np.array(v) for k, v in data.items()}
+
 
 def run_lammps_simulation(
     input_file: str,

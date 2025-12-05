@@ -1,0 +1,21 @@
+LAMMPS (22 Jul 2025 - Update 2)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+# Binary Ga Experiment - Run 1 (Size Difference 10%) - CPU Version
+# Temperature: 293K
+# Ga1: sigma = 2.70, epsilon = 0.430
+# Ga2: sigma = 2.43, epsilon = 0.430 (sigma * 0.9)
+# Cross: sigma = 2.565, epsilon = 0.430 (Arithmetic mean)
+
+# ========== Initialization ==========
+units           real
+atom_style      atomic
+boundary        p p p
+
+# ========== Read structure ==========
+read_data       inputs/data.ga_binary
+Reading data file ...
+  orthogonal box = (0 0 0) to (26.762877 26.762877 26.762877)
+  1 by 1 by 1 MPI processor grid
+ERROR: Invalid format in Masses section of data file:  (src/read_data.cpp:2141)
+Last input line: read_data inputs/data.ga_binary

@@ -21,7 +21,7 @@ from epsr.io.experimental import load_experimental_data, interpolate_to_grid
 from epsr.io.lammps import LAMMPSInterface
 from epsr.io.tables import write_potential_tables
 from epsr.analysis.metrics import calculate_chi_squared, calculate_r_factor
-from epsr.visualization.plots import plot_epsr_summary
+from epsr.visualization.plots import plot_epsr_summary, plot_structure_factor, plot_rdf_comparison
 
 
 @dataclass
@@ -484,17 +484,17 @@ class EPSREngine:
         return False
 
     def _save_plots(self, r_sim: np.ndarray, g_sim: np.ndarray, iteration: int):
-        """Save summary plots."""
+        """Save summary plots and data tables."""
         potentials_dict = {
             name: ep.get_potential()
             for name, ep in self.potentials.items()
         }
 
+        # 1. Save Summary Plot
         output_file = os.path.join(
             self.config.output_dir,
             f'epsr_iter{iteration:03d}.png'
         )
-
         plot_epsr_summary(
             r_exp=self.r_exp,
             g_exp=self.g_exp,
@@ -506,6 +506,69 @@ class EPSREngine:
             iteration=iteration,
             output_file=output_file
         )
+        
+        # 2. Save G(r) Plot explicitly
+        gr_plot_file = os.path.join(
+            self.config.output_dir,
+            f'gr_iter{iteration:03d}.png'
+        )
+        plot_rdf_comparison(
+            r_exp=self.r_exp,
+            g_exp=self.g_exp,
+            r_sim=r_sim,
+            g_sim=g_sim,
+            output_file=gr_plot_file,
+            title=f"Pair Distribution Function (Iter {iteration})"
+        )
+
+        # 3. Calculate and Save S(Q)
+        # Define Q-space grid
+        Q = np.linspace(0.5, 20.0, 300)
+        sf = StructureFactor(rho=self.config.density)
+        
+        # Experimental S(Q)
+        S_exp = sf.g_to_S(self.r_exp, self.g_exp, Q)
+        
+        # Simulated S(Q)
+        S_sim = sf.g_to_S(r_sim, g_sim, Q)
+        
+        # Save S(Q) data to file
+        sq_file = os.path.join(
+            self.config.output_dir,
+            f'sq_iter{iteration:03d}.dat'
+        )
+        np.savetxt(sq_file, np.column_stack((Q, S_sim, S_exp)), 
+                   header="Q(A^-1) S_sim(Q) S_exp(Q)")
+        
+        # Plot S(Q)
+        sq_plot_file = os.path.join(
+            self.config.output_dir,
+            f'sq_iter{iteration:03d}.png'
+        )
+        plot_structure_factor(
+            Q_exp=Q,
+            S_exp=S_exp,
+            Q_sim=Q,
+            S_sim=S_sim,
+            output_file=sq_plot_file,
+            title=f"Structure Factor (Iter {iteration})"
+        )
+
+        # 4. Save Density Table
+        log_file = os.path.join(
+            self.config.output_dir,
+            f'lammps_iter{iteration:03d}.log'
+        )
+        thermo_data = self.lammps.read_log_thermo(log_file)
+        
+        if 'Density' in thermo_data and 'Step' in thermo_data:
+            density_file = os.path.join(
+                self.config.output_dir,
+                f'density_iter{iteration:03d}.dat'
+            )
+            np.savetxt(density_file, 
+                       np.column_stack((thermo_data['Step'], thermo_data['Density'])),
+                       header="Step Density(g/cm^3)")
 
     def _compile_results(self) -> Dict:
         """Compile final results."""
