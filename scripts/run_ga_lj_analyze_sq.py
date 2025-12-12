@@ -19,21 +19,53 @@ def load_rdf_ga(filepath):
     """
     Load RDF file for pure Ga system.
     Expected LAMMPS output columns: Row Bin R g(r) c(r)
+
+    For time-averaged LAMMPS output with multiple timesteps,
+    only reads the last (most converged) timestep.
     """
     print(f"Loading RDF from: {filepath}")
 
     with open(filepath, 'r') as f:
         lines = f.readlines()
 
-    data_lines = []
-    for line in lines:
-        line = line.strip()
-        if not line or line.startswith('#'):
-            continue
-        parts = line.split()
-        if len(parts) < 3:
-            continue
-        data_lines.append(line)
+    # Find all timestep headers (lines with format "timestep num_rows")
+    timestep_indices = []
+    for i, line in enumerate(lines):
+        parts = line.strip().split()
+        if len(parts) == 2 and not line.startswith('#'):
+            try:
+                # Check if both parts are integers
+                int(parts[0])
+                int(parts[1])
+                timestep_indices.append(i)
+            except ValueError:
+                continue
+
+    if timestep_indices:
+        # Read only the last timestep
+        last_timestep_idx = timestep_indices[-1]
+        num_rows = int(lines[last_timestep_idx].split()[1])
+        print(f"Found {len(timestep_indices)} timesteps in file")
+        print(f"Reading last timestep (line {last_timestep_idx + 1}): {lines[last_timestep_idx].strip()}")
+
+        # Extract data lines for last timestep
+        data_lines = []
+        for i in range(last_timestep_idx + 1, min(last_timestep_idx + 1 + num_rows, len(lines))):
+            line = lines[i].strip()
+            if line and not line.startswith('#'):
+                data_lines.append(line)
+    else:
+        # Fallback: no timestep headers found, read all data
+        print("No timestep headers found, reading all data lines")
+        data_lines = []
+        for line in lines:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            parts = line.split()
+            if len(parts) < 3:
+                continue
+            data_lines.append(line)
 
     if not data_lines:
         print(f"Error: No data found in {filepath}")
@@ -167,7 +199,7 @@ def print_statistics(r, g, Q, S):
         r_cutoff = r[first_min_idx[0]]
         r_int = r[r <= r_cutoff]
         g_int = g[r <= r_cutoff]
-        cn = 4 * np.pi * 0.0522 * np.trapz(g_int * r_int**2, r_int)
+        cn = 4 * np.pi * 0.0522 * np.trapezoid(g_int * r_int**2, r_int)
         print(f"\nCoordination number estimate:")
         print(f"  First minimum at r ≈ {r_cutoff:.3f} Å")
         print(f"  Estimated CN ≈ {cn:.2f}")
@@ -206,14 +238,14 @@ def main():
     data = load_rdf_ga(args.rdf_file)
 
     # Extract columns
-    # LAMMPS RDF output: Row Bin R g(r) c(r)
-    # Columns:            0   1  2  3    4
-    if data.shape[1] < 4:
+    # LAMMPS RDF output: Row R g(r) c(r)
+    # Columns:            0   1  2    3
+    if data.shape[1] < 3:
         print(f"Error: RDF file has insufficient columns: {data.shape[1]}")
         sys.exit(1)
 
-    r = data[:, 2]  # r values (Å)
-    g = data[:, 3]  # g(r)
+    r = data[:, 1]  # r values (Å)
+    g = data[:, 2]  # g(r)
 
     print(f"Loaded RDF data:")
     print(f"  Points: {len(r)}")
