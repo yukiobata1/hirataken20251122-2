@@ -199,7 +199,11 @@ def print_statistics(r, g, Q, S):
         r_cutoff = r[first_min_idx[0]]
         r_int = r[r <= r_cutoff]
         g_int = g[r <= r_cutoff]
-        cn = 4 * np.pi * 0.0522 * np.trapezoid(g_int * r_int**2, r_int)
+        # Use trapezoid if available (numpy >= 1.21), otherwise use trapz
+        try:
+            cn = 4 * np.pi * 0.0522 * np.trapezoid(g_int * r_int**2, r_int)
+        except AttributeError:
+            cn = 4 * np.pi * 0.0522 * np.trapz(g_int * r_int**2, r_int)
         print(f"\nCoordination number estimate:")
         print(f"  First minimum at r ≈ {r_cutoff:.3f} Å")
         print(f"  Estimated CN ≈ {cn:.2f}")
