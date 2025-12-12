@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 from io import StringIO
 
 # ================= CONFIGURATION =================
-# Grid Search Phase 2: Aggressive Parameters
-# Aim: Force separation of characteristic lengths to create S(Q) shoulder
-SIGMA_RATIOS = [0.85, 0.80, 0.75, 0.70]  # Decrease size further
-EPSILON_RATIOS = [1.5, 2.0, 3.0]         # Increase attraction to stabilize small clusters
+# TEST RUN: Check if ratio=1.0 matches reference data
+SIGMA_RATIOS = [1.0]  # Pure Ga test
+EPSILON_RATIOS = [1.0]
 
 # Base Parameters (Ga)
 SIGMA_BASE = 2.70
@@ -23,13 +22,13 @@ def write_lammps_input(filename, output_prefix, sig_r, eps_r):
     s1, e1 = SIGMA_BASE, EPSILON_BASE
     s2 = s1 * sig_r
     e2 = e1 * eps_r
-    
+
     # Lorentz-Berthelot Mixing
     s12 = (s1 + s2) / 2.0
     e12 = np.sqrt(e1 * e2)
 
     content = f"""
-# Grid Search Phase 2: Sigma_ratio={sig_r}, Epsilon_ratio={eps_r}
+# Grid Search TEST: Sigma_ratio={sig_r}, Epsilon_ratio={eps_r}
 # KOKKOS Initialization (CRITICAL: Must be first)
 package         kokkos neigh full newton off
 
@@ -114,32 +113,43 @@ def load_rdf_robust(filepath):
 
 def main():
     os.makedirs("grid_outputs", exist_ok=True)
-    try: prepare_base_data() # Error handling removed for brevity
-    except: pass
-    
+    try:
+        prepare_base_data()
+    except Exception as e:
+        print(f"Warning: {e}")
+        pass
+
     results = {}
-    print(f"Starting Phase 2 Grid Search (Aggressive Range).")
-    print(f"Sigma: {SIGMA_RATIOS}")
-    print(f"Epsilon: {EPSILON_RATIOS}")
+    print("=" * 60)
+    print("TEST RUN: Checking if ratio=1.0 matches reference data")
+    print("=" * 60)
+    print(f"Temperature: {TEMP} K (150°C)")
+    print(f"Density: 0.0522 atoms/Å³")
+    print(f"Sigma ratios: {SIGMA_RATIOS}")
+    print(f"Epsilon ratios: {EPSILON_RATIOS}")
+    print("=" * 60)
 
     for sig_r in SIGMA_RATIOS:
         for eps_r in EPSILON_RATIOS:
-            label = f"s{int(sig_r*100)}_e{int(eps_r*100)}"
-            print(f"Processing: Sigma={sig_r:.2f}, Epsilon={eps_r:.2f} ... ", end="", flush=True)
-            
+            label = f"s{int(sig_r*100)}_e{int(eps_r*100)}_test"
+            print(f"\nProcessing: Sigma={sig_r:.2f}, Epsilon={eps_r:.2f}")
+
             input_file = f"grid_outputs/in.{label}"
             rdf_file = f"grid_outputs/out_{label}"
             write_lammps_input(input_file, rdf_file, sig_r, eps_r)
-            
+
+            print(f"  Running LAMMPS... (this will take 10-30 minutes)")
             cmd = f"{LMP_CMD} -in {input_file} -log grid_outputs/log.{label}"
             try:
                 subprocess.run(cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-                print("Done.")
-            except subprocess.CalledProcessError:
-                print("Failed!")
+                print("  ✓ Simulation completed")
+            except subprocess.CalledProcessError as e:
+                print("  ✗ Simulation failed!")
+                print(f"  Error: {e.stderr.decode() if e.stderr else 'Unknown error'}")
                 continue
 
             try:
+                print("  Analyzing RDF and calculating S(Q)...")
                 data = load_rdf_robust(f"{rdf_file}.rdf")
                 r = data[:, 1]
                 if data.shape[1] >= 7:
@@ -149,40 +159,54 @@ def main():
                     g_total = data[:, 2]
                 Q, S = calc_sq_simple(r, g_total)
                 results[(sig_r, eps_r)] = (Q, S)
+
+                # Save S(Q) data
+                sq_file = f"grid_outputs/sq_{label}.txt"
+                np.savetxt(sq_file, np.column_stack([Q, S]), header="Q (A^-1)  S(Q)", comments="# ")
+                print(f"  ✓ S(Q) saved to {sq_file}")
+
             except Exception as e:
-                print(f"Analysis Error: {e}")
+                print(f"  ✗ Analysis Error: {e}")
 
-    # Plotting
-    print("Generating Summary Plot...")
-    fig, axes = plt.subplots(len(SIGMA_RATIOS), len(EPSILON_RATIOS), 
-                             figsize=(18, 14), sharex=True, sharey=True)
-    
-    cols = [f"Eps x{r}" for r in EPSILON_RATIOS]
-    rows = [f"Sig x{r}" for r in SIGMA_RATIOS]
+    # Plotting comparison with reference
+    if results:
+        print("\n" + "=" * 60)
+        print("Generating comparison plot with reference data...")
+        print("=" * 60)
 
-    for ax, col in zip(axes[0], cols): ax.set_title(col, fontsize=14, fontweight='bold')
-    for ax, row in zip(axes[:,0], rows): ax.set_ylabel(f"{row}\nS(Q)", fontsize=14, fontweight='bold')
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 
-    for i, sig_r in enumerate(SIGMA_RATIOS):
-        for j, eps_r in enumerate(EPSILON_RATIOS):
-            ax = axes[i, j]
-            if (sig_r, eps_r) in results:
-                Q, S = results[(sig_r, eps_r)]
-                ax.plot(Q, S, 'b-', lw=2)
-                # Highlight potential shoulder area
-                ax.axvspan(2.2, 3.2, color='orange', alpha=0.15)
-                ax.set_xlim(0, 12)
-                ax.set_ylim(0, 3.5)
-                
-                peak_idx = np.argmax(S)
-                ax.text(0.95, 0.9, f"Peak: {Q[peak_idx]:.2f}", transform=ax.transAxes, ha='right')
+        # Load reference data
+        try:
+            ref_data = np.loadtxt('outputs/ga_lj_sq.txt', comments='#')
+            Q_ref = ref_data[:, 0]
+            S_ref = ref_data[:, 1]
+            ax.plot(Q_ref, S_ref, 'k-', lw=2, label='Reference (150°C, pure Ga)', alpha=0.7)
+        except:
+            print("  Warning: Could not load reference data from outputs/ga_lj_sq.txt")
 
-            ax.grid(True, alpha=0.4)
-            if i == len(SIGMA_RATIOS)-1: ax.set_xlabel("Q (A^-1)")
+        # Plot test result
+        for (sig_r, eps_r), (Q, S) in results.items():
+            ax.plot(Q, S, 'r-', lw=2, label=f'Test: σ×{sig_r}, ε×{eps_r} (150°C, 2-type)')
 
-    plt.tight_layout()
-    plt.savefig("grid_search_large_phase2.png", dpi=150)
-    print("Done! Check 'grid_search_large_phase2.png'")
+        ax.set_xlabel('Q (Å⁻¹)', fontsize=12)
+        ax.set_ylabel('S(Q)', fontsize=12)
+        ax.set_title('Comparison: Test vs Reference Data', fontsize=14)
+        ax.legend(fontsize=11)
+        ax.grid(True, alpha=0.3)
+        ax.set_xlim(0, 15)
+        ax.set_ylim(-0.5, 3)
+        ax.axvspan(2.2, 3.2, color='orange', alpha=0.1, label='Shoulder region')
+
+        plt.tight_layout()
+        plt.savefig("grid_search_test_comparison.png", dpi=150)
+        print("✓ Plot saved to: grid_search_test_comparison.png")
+    else:
+        print("\nNo results to plot!")
+
+    print("\n" + "=" * 60)
+    print("TEST COMPLETED")
+    print("=" * 60)
 
 if __name__ == "__main__":
     main()
