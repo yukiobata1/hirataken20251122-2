@@ -66,7 +66,7 @@ echo ""
 KOKKOS_ARGS=""
 if [ "$USE_GPU" = true ]; then
     echo "KOKKOS mode: GPU acceleration enabled"
-    KOKKOS_ARGS="-kokkos on gpu"
+    KOKKOS_ARGS="-kokkos on g"
 else
     echo "KOKKOS mode: CPU acceleration (default)"
     KOKKOS_ARGS="-kokkos on"
