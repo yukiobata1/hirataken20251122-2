@@ -1,10 +1,10 @@
 #!/bin/bash
-# Script to build LAMMPS with KOKKOS support for H100
+# Script to build LAMMPS with KOKKOS support for A100
 
 set -e
 
 echo "================================================"
-echo "  Building LAMMPS with KOKKOS for H100"
+echo "  Building LAMMPS with KOKKOS for A100"
 echo "================================================"
 echo ""
 
@@ -47,29 +47,31 @@ mkdir build
 cd build
 
 echo ""
-echo "🔨 Configuring LAMMPS with KOKKOS for H100..."
+echo "🔨 Configuring LAMMPS with KOKKOS for A100 (Ampere)..."
 echo ""
 
-# Configure with KOKKOS for H100 (Hopper architecture)
+# Configure with KOKKOS for A100 (Ampere architecture)
+# Changed HOPPER90 to AMPERE80
 cmake ../cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DPKG_KOKKOS=yes \
   -DPKG_MANYBODY=yes \
   -DKokkos_ENABLE_CUDA=yes \
-  -DKokkos_ARCH_HOPPER90=yes \
+  -DKokkos_ARCH_AMPERE80=yes \
   -DCMAKE_CXX_COMPILER=$(pwd)/../lib/kokkos/bin/nvcc_wrapper \
   -DCMAKE_INSTALL_PREFIX=$HOME/.local
 
 if [ $? -ne 0 ]; then
     echo "❌ Configuration failed. Trying alternative method..."
-    
+
     # Alternative: use GPU package instead
+    # Changed sm_90 to sm_80
     cmake ../cmake \
       -DCMAKE_BUILD_TYPE=Release \
       -DPKG_GPU=yes \
       -DPKG_MANYBODY=yes \
       -DGPU_API=cuda \
-      -DGPU_ARCH=sm_90 \
+      -DGPU_ARCH=sm_80 \
       -DCMAKE_INSTALL_PREFIX=$HOME/.local
 fi
 
@@ -92,7 +94,7 @@ fi
 
 echo ""
 echo "================================================"
-echo "  ✅ LAMMPS Build Complete!"
+echo "  ✅ LAMMPS Build Complete for A100!"
 echo "================================================"
 echo ""
 echo "To use the new LAMMPS:"
@@ -103,5 +105,5 @@ echo "Then test with:"
 echo "  lmp -help | grep KOKKOS"
 echo ""
 echo "To run simulation:"
-echo "  lmp -k on g 1 -sf kk -in in.ga_H100"
+echo "  lmp -k on g 1 -sf kk -in in.ga_A100"
 echo ""
