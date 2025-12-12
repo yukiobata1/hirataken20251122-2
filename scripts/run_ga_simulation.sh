@@ -89,7 +89,33 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo "📁 Generated files:"
     ls -lh rdf.dat outputs/final_structure_ga_lj.data dump.ga.lj.lammpstrj 2>/dev/null | awk '{print "   "$9, "-", $5}' || echo "Output files not found or empty."
     echo ""
-    
+
+    # Run S(Q) analysis
+    echo "================================================"
+    echo "  Running S(Q) Analysis"
+    echo "================================================"
+    echo ""
+
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    ANALYSIS_SCRIPT="$SCRIPT_DIR/run_ga_lj_analyze_sq.py"
+
+    if [ -f "$ANALYSIS_SCRIPT" ]; then
+        if python3 "$ANALYSIS_SCRIPT" --rdf-file rdf.dat --output-dir outputs; then
+            echo ""
+            echo "✅ S(Q) analysis completed!"
+            echo ""
+            echo "📁 Analysis output files:"
+            ls -lh outputs/ga_lj_sq.png outputs/ga_lj_sq.txt outputs/ga_lj_gr.txt 2>/dev/null | awk '{print "   "$9, "-", $5}' || true
+        else
+            echo ""
+            echo "⚠️  S(Q) analysis failed, but simulation was successful"
+        fi
+    else
+        echo "⚠️  Analysis script not found: $ANALYSIS_SCRIPT"
+        echo "   Run manually: python scripts/run_ga_lj_analyze_sq.py"
+    fi
+    echo ""
+
 else
     echo "❌ Simulation failed with exit code $EXIT_CODE"
     echo "   Check log file: $OUTPUT_LOG"
@@ -97,5 +123,5 @@ else
 fi
 
 echo "================================================"
-echo "  Simulation Complete!"
+echo "  All Tasks Complete!"
 echo "================================================"
