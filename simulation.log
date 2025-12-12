@@ -1,0 +1,3 @@
+LAMMPS (22 Jul 2025 - Update 2)
+KOKKOS mode with Kokkos version 4.6.2 is enabled
+ERROR: Invalid Kokkos command-line args (src/KOKKOS/kokkos.cpp:101)

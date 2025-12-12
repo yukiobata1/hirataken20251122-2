@@ -1,0 +1,4 @@
+LAMMPS (22 Jul 2025 - Update 2)
+KOKKOS mode with Kokkos version 4.6.2 is enabled
+  will use up to 1 GPU(s) per node
+Kokkos::Cuda::initialize WARNING: running kernels compiled for compute capability 8.0 on device with compute capability 8.6 , this will likely reduce potential performance.
