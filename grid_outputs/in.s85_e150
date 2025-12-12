@@ -1,5 +1,5 @@
 
-# Grid Search Phase 2: Sigma_ratio=0.85, Epsilon_ratio=1.5
+# Grid Search Phase 1: Sigma_ratio=0.85, Epsilon_ratio=1.5
 # KOKKOS Initialization (CRITICAL: Must be first)
 package         kokkos neigh full newton off
 
