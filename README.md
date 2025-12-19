@@ -26,41 +26,34 @@ python scripts/main_epsr.py
 
 ## 📚 Documentation
 
-- **[NEW_EPSR_README.md](NEW_EPSR_README.md)** - Complete guide to new implementation
-- **[QUICK_MIGRATION_GUIDE.md](QUICK_MIGRATION_GUIDE.md)** - Migrate from old to new
-- **[EPSR_README.md](EPSR_README.md)** - Legacy documentation
-- **[DISSOLVE_SETUP_GUIDE.md](DISSOLVE_SETUP_GUIDE.md)** - Reference for proper EPSR
+- **[docs/NEW_EPSR_README.md](docs/NEW_EPSR_README.md)** - Complete guide to new implementation
+- **[docs/QUICK_MIGRATION_GUIDE.md](docs/QUICK_MIGRATION_GUIDE.md)** - Migrate from old to new
+- **[docs/QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md)** - Quick reference
+- **[docs/SQ_METHOD_EXPLANATION.md](docs/SQ_METHOD_EXPLANATION.md)** - S(Q) method details
+- **[legacy/docs/](legacy/docs/)** - Legacy documentation
 
 ## 🏗️ Project Structure
 
 ```
 .
-├── epsr/                      # Main EPSR package (NEW)
+├── epsr/                      # Main EPSR package (production code)
 │   ├── core/                  # Core algorithms
-│   │   ├── structure_factor.py  # S(Q) ↔ g(r) transforms
-│   │   ├── potential.py         # Empirical potential refinement
-│   │   └── epsr_engine.py       # Main EPSR workflow
-│   ├── io/                    # Input/output
+│   ├── io/                    # Input/output handlers
 │   ├── analysis/              # RDF and metrics
 │   └── visualization/         # Plotting tools
-│
-├── scripts/
-│   ├── run_epsr.py           # New CLI entry point ⭐
-│   ├── main_epsr.py          # Legacy script
-│   └── update_ep.py          # Legacy utilities
-│
-├── data/
+├── scripts/                   # All executable scripts
+│   ├── run_epsr.py           # Main CLI entry point ⭐
+│   └── build_lammps_kokkos.sh # LAMMPS build script
+├── data/                      # Data files
 │   ├── g_exp_cleaned.dat     # Experimental g(r) (150°C)
 │   └── ep_*.table            # Empirical potential tables
-│
-├── inputs/
-│   ├── in.egain_epsr_H100    # LAMMPS input (GPU)
-│   └── initial_structure.data # Initial configuration
-│
-├── outputs/                   # Results and plots
-│
-└── tests/
-    └── unit/                  # Unit tests
+├── inputs/                    # LAMMPS input files
+├── outputs/                   # Results (auto-generated)
+│   └── grid_search/          # Grid search results
+├── tests/                     # Test suite
+├── docs/                      # Documentation
+└── legacy/                    # Old implementation (reference only)
+    └── outputs/              # Old outputs
 ```
 
 ## ✨ Key Features
@@ -292,15 +285,15 @@ See LICENSE file.
 
 ## 🙋 Support
 
-- **Documentation**: See `NEW_EPSR_README.md` for details
-- **Migration**: See `QUICK_MIGRATION_GUIDE.md` to switch from old version
-- **Issues**: Check existing documentation and test thoroughly
+- **Documentation**: See `docs/NEW_EPSR_README.md` for details
+- **Migration**: See `docs/QUICK_MIGRATION_GUIDE.md` to switch from old version
+- **Quick Reference**: See `docs/QUICK_REFERENCE.md`
 
 ## 🎯 Next Steps
 
 1. **New users**: Start with `python scripts/run_epsr.py`
-2. **Existing users**: Read `QUICK_MIGRATION_GUIDE.md`
-3. **Developers**: See `NEW_EPSR_README.md` for API details
+2. **Existing users**: Read `docs/QUICK_MIGRATION_GUIDE.md`
+3. **Developers**: See `docs/NEW_EPSR_README.md` for API details
 4. **Advanced**: Explore `epsr/` package for customization
 
 ---
