@@ -4,6 +4,9 @@
 # Ga1-Ga2 sigma = 2.7000 A (mixed)
 # Epsilon = 0.4300 kcal/mol (fixed)
 
+# KOKKOS Initialization
+package         kokkos neigh full newton off
+
 units           real
 atom_style      atomic
 boundary        p p p
@@ -16,7 +19,7 @@ set             group all type 1
 set             group all type/fraction 2 0.50 17345
 
 # Force Field (LJ)
-pair_style      lj/cut 12.0
+pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 0.4300 2.9700
 pair_coeff      2 2 0.4300 2.4300
 pair_coeff      1 2 0.4300 2.7000
