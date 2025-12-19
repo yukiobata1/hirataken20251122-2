@@ -1,0 +1,97 @@
+LAMMPS (22 Jul 2025 - Update 2)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+# Bimodal Ga Grid Search: Ga1 fraction = 0.50
+# Ga1-Ga1 sigma = 2.9700 A (x1.1)
+# Ga2-Ga2 sigma = 2.4300 A (x0.9)
+# Ga1-Ga2 sigma = 2.7000 A (mixed)
+# Epsilon = 0.4300 kcal/mol (fixed)
+
+units           real
+atom_style      atomic
+boundary        p p p
+
+read_data       inputs/data.ga_base_2types
+Reading data file ...
+  orthogonal box = (0 0 0) to (26.762877 26.762877 26.762877)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  1000 atoms
+  read_data CPU = 0.006 seconds
+
+# Set type fractions: Ga1=0.50, Ga2=0.50
+# First set all to type 1, then convert fraction to type 2
+set             group all type 1
+Setting atom values ...
+  1000 settings made for type
+set             group all type/fraction 2 0.50 17345
+Setting atom values ...
+  490 settings made for type/fraction
+
+# Force Field (LJ)
+pair_style      lj/cut 12.0
+pair_coeff      1 1 0.4300 2.9700
+pair_coeff      2 2 0.4300 2.4300
+pair_coeff      1 2 0.4300 2.7000
+
+# Settings
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+velocity        all create 423.15 17345 dist gaussian
+
+thermo          1000
+thermo_style    custom step temp press density
+
+# Minimization
+minimize        1.0e-4 1.0e-6 10000 100000
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 14
+  ghost atom cutoff = 14
+  binsize = 7, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.702 | 5.702 | 5.702 Mbytes
+   Step          Temp          Press         Density    
+         0   423.15         6.2657704e+15  6.0398583    
+       229   423.15         7045.2071      6.0398583    
+Loop time of 0.958112 on 1 procs for 229 steps with 1000 atoms
+
+96.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+       437913903052935  -3289.02850844008  -3289.35025897329
+  Force two-norm initial, final = 4.0258591e+16 4.9811176
+  Force max component initial, final = 2.2652674e+16 1.1295492
+  Final line search alpha, max atom move = 0.026408345 0.029829527
+  Iterations, force evaluations = 229 331
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.8603     | 0.8603     | 0.8603     |   0.0 | 89.79
+Neigh   | 0.083622   | 0.083622   | 0.083622   |   0.0 |  8.73
+Comm    | 0.0075761  | 0.0075761  | 0.0075761  |   0.0 |  0.79
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.006617   |            |       |  0.69
+
+Nlocal:           1000 ave        1000 max        1000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7598 ave        7598 max        7598 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         298996 ave      298996 max      298996 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 298996
+Ave neighs/atom = 298.996
+Neighbor list builds = 15
+Dangerous builds = 0
