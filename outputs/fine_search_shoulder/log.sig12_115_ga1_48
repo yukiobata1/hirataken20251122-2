@@ -1,0 +1,347 @@
+LAMMPS (22 Jul 2025 - Update 2)
+KOKKOS mode with Kokkos version 4.6.2 is enabled
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+package kokkos
+# Fine Search: Ga1=0.48, sigma12=1.15x
+# Ga1-Ga1 sigma = 2.9700 A (x1.1)
+# Ga2-Ga2 sigma = 2.4300 A (x0.9)
+# Ga1-Ga2 sigma = 3.1050 A (x1.15)
+# Epsilon = 0.4300 kcal/mol
+
+package         kokkos neigh full newton off
+
+units           real
+atom_style      atomic
+boundary        p p p
+
+read_data       inputs/data.ga_base_2types
+Reading data file ...
+  orthogonal box = (0 0 0) to (26.762877 26.762877 26.762877)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  1000 atoms
+  read_data CPU = 0.008 seconds
+
+set             group all type 1
+Setting atom values ...
+  1000 settings made for type
+set             group all type/fraction 2 0.52 18295
+Setting atom values ...
+  531 settings made for type/fraction
+
+pair_style      lj/cut/kk 12.0
+pair_coeff      1 1 0.4300 2.9700
+pair_coeff      2 2 0.4300 2.4300
+pair_coeff      1 2 0.4300 3.1050
+
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+velocity        all create 423.15 18295 dist gaussian
+
+thermo          1000
+thermo_style    custom step temp press density
+
+minimize        1.0e-4 1.0e-6 10000 100000
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 14
+  ghost atom cutoff = 14
+  binsize = 14, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+WARNING: Fix MINIMIZE/kk not compatible with sending data in Kokkos communication (src/KOKKOS/comm_kokkos.cpp:767)
+WARNING: Fix with atom-based arrays not compatible with sending data in Kokkos communication, switching to classic exchange/border communication (src/KOKKOS/comm_kokkos.cpp:780)
+WARNING: Fix MINIMIZE/kk not compatible with Kokkos sorting on device (src/KOKKOS/atom_kokkos.cpp:212)
+WARNING: Fix with atom-based arrays not compatible with Kokkos sorting on device, switching to classic host sorting (src/KOKKOS/atom_kokkos.cpp:218)
+Per MPI rank memory allocation (min/avg/max) = 4.617 | 4.617 | 4.617 Mbytes
+   Step          Temp          Press         Density    
+         0   423.15         2.0921805e+15  6.0398583    
+       408   423.15         33026.84       6.0398583    
+Loop time of 0.269086 on 1 procs for 408 steps with 1000 atoms
+
+98.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+       146222221646755  -2888.74400028608  -2889.03085419315
+  Force two-norm initial, final = 1.1574867e+16 5.46123
+  Force max component initial, final = 6.3977841e+15 1.552262
+  Final line search alpha, max atom move = 0.073076724 0.11343422
+  Iterations, force evaluations = 408 652
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.082394   | 0.082394   | 0.082394   |   0.0 | 30.62
+Neigh   | 0.11786    | 0.11786    | 0.11786    |   0.0 | 43.80
+Comm    | 0.0098383  | 0.0098383  | 0.0098383  |   0.0 |  3.66
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.05899    |            |       | 21.92
+
+Nlocal:           1000 ave        1000 max        1000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7566 ave        7566 max        7566 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:       598588 ave      598588 max      598588 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 598588
+Ave neighs/atom = 598.588
+Neighbor list builds = 23
+Dangerous builds = 0
+reset_timestep  0
+
+timestep        2.0
+fix             nvt all nvt temp 423.15 423.15 100.0
+run             50000
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 3.492 | 3.492 | 3.492 Mbytes
+   Step          Temp          Press         Density    
+         0   423.15         33026.84       6.0398583    
+      1000   423.44708      52973.019      6.0398583    
+      2000   425.84511      52508.443      6.0398583    
+      3000   435.70235      51728.326      6.0398583    
+      4000   419.42713      51071.493      6.0398583    
+      5000   428.06361      51198.097      6.0398583    
+      6000   435.50781      49306.332      6.0398583    
+      7000   424.62468      48513.952      6.0398583    
+      8000   420.40289      48103.754      6.0398583    
+      9000   430.0251       47328.292      6.0398583    
+     10000   445.85174      47175.401      6.0398583    
+     11000   407.10038      46263.405      6.0398583    
+     12000   409.3267       45210.841      6.0398583    
+     13000   415.73051      44623.498      6.0398583    
+     14000   436.33271      44842.892      6.0398583    
+     15000   415.35015      43958.779      6.0398583    
+     16000   421.35948      42713.918      6.0398583    
+     17000   418.90042      42518.847      6.0398583    
+     18000   443.77107      41764.802      6.0398583    
+     19000   428.15502      41466.467      6.0398583    
+     20000   430.62771      42525.08       6.0398583    
+     21000   418.01689      41287.155      6.0398583    
+     22000   435.3133       41368.326      6.0398583    
+     23000   427.26708      41337.905      6.0398583    
+     24000   428.91967      41348.675      6.0398583    
+     25000   431.97534      40563.782      6.0398583    
+     26000   425.48757      40057.684      6.0398583    
+     27000   426.17206      40442.32       6.0398583    
+     28000   421.56851      40058.956      6.0398583    
+     29000   454.85571      41555.302      6.0398583    
+     30000   416.03047      39647.997      6.0398583    
+     31000   423.59547      38903.176      6.0398583    
+     32000   420.44379      39472.564      6.0398583    
+     33000   446.00707      39183.766      6.0398583    
+     34000   412.21057      39150.986      6.0398583    
+     35000   409.50938      38602.894      6.0398583    
+     36000   434.69479      38764.73       6.0398583    
+     37000   401.26085      37552.222      6.0398583    
+     38000   423.4934       38202.991      6.0398583    
+     39000   422.73717      38470.292      6.0398583    
+     40000   416.51927      38629.775      6.0398583    
+     41000   431.76626      37989.148      6.0398583    
+     42000   425.14158      36235.361      6.0398583    
+     43000   439.58632      36455.762      6.0398583    
+     44000   429.3284       37105.255      6.0398583    
+     45000   409.42786      35761.482      6.0398583    
+     46000   422.0808       36222.661      6.0398583    
+     47000   426.85886      35344.682      6.0398583    
+     48000   423.30423      36645.17       6.0398583    
+     49000   412.63712      36273.561      6.0398583    
+     50000   432.90621      36858.11       6.0398583    
+Loop time of 17.7409 on 1 procs for 50000 steps with 1000 atoms
+
+Performance: 487.011 ns/day, 0.049 hours/ns, 2818.350 timesteps/s, 2.818 Matom-step/s
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.61148    | 0.61148    | 0.61148    |   0.0 |  3.45
+Neigh   | 3.8513     | 3.8513     | 3.8513     |   0.0 | 21.71
+Comm    | 0.41342    | 0.41342    | 0.41342    |   0.0 |  2.33
+Output  | 0.0019249  | 0.0019249  | 0.0019249  |   0.0 |  0.01
+Modify  | 11.535     | 11.535     | 11.535     |   0.0 | 65.02
+Other   |            | 1.328      |            |       |  7.49
+
+Nlocal:           1000 ave        1000 max        1000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7572 ave        7572 max        7572 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:       598546 ave      598546 max      598546 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 598546
+Ave neighs/atom = 598.546
+Neighbor list builds = 758
+Dangerous builds = 0
+unfix           nvt
+reset_timestep  0
+
+fix             nvt all nvt temp 423.15 423.15 100.0
+compute         myrdf all rdf 200 1 1 2 2 1 2 cutoff 12.0
+fix             rdfout all ave/time 100 1000 100000 c_myrdf[*] file outputs/fine_search_shoulder/out_sig12_115_ga1_48.rdf mode vector
+
+run             100000
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 14
+  ghost atom cutoff = 14
+  binsize = 14, bins = 2 2 2
+  2 neighbor lists, perpetual/occasional/extra = 1 1 0
+  (1) pair lj/cut/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+  (2) compute rdf, occasional
+      attributes: half, newton off
+      pair build: half/bin/atomonly/newtoff
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 4.189 | 4.189 | 4.189 Mbytes
+   Step          Temp          Press         Density    
+         0   432.90621      36858.11       6.0398583    
+      1000   411.42559      34849.439      6.0398583    
+      2000   409.40456      36061.695      6.0398583    
+      3000   419.63484      35573.475      6.0398583    
+      4000   437.18698      35967.359      6.0398583    
+      5000   402.15002      35313.533      6.0398583    
+      6000   419.65608      34057.67       6.0398583    
+      7000   440.61332      34862.41       6.0398583    
+      8000   437.26464      36007.005      6.0398583    
+      9000   419.91418      35610.046      6.0398583    
+     10000   445.73955      35605.082      6.0398583    
+     11000   424.35961      35138.639      6.0398583    
+     12000   437.08937      35701.844      6.0398583    
+     13000   424.78781      34872.639      6.0398583    
+     14000   440.10052      34682.459      6.0398583    
+     15000   389.70434      34573.604      6.0398583    
+     16000   432.12618      34465.436      6.0398583    
+     17000   425.54742      35799.484      6.0398583    
+     18000   435.37606      35148.843      6.0398583    
+     19000   423.74811      34717.73       6.0398583    
+     20000   404.24203      35245.137      6.0398583    
+     21000   440.62493      34019.879      6.0398583    
+     22000   422.64241      34144.766      6.0398583    
+     23000   415.81432      34171.758      6.0398583    
+     24000   426.0328       33446.12       6.0398583    
+     25000   411.1138       34444.813      6.0398583    
+     26000   419.86661      32834.116      6.0398583    
+     27000   419.0621       33379.852      6.0398583    
+     28000   428.54421      34100.619      6.0398583    
+     29000   425.74035      34359.223      6.0398583    
+     30000   422.06955      34107.05       6.0398583    
+     31000   422.97699      33350.018      6.0398583    
+     32000   416.35672      34279.316      6.0398583    
+     33000   437.654        33665.758      6.0398583    
+     34000   433.22535      34018.414      6.0398583    
+     35000   434.96688      34379.757      6.0398583    
+     36000   417.62274      34884.836      6.0398583    
+     37000   414.67639      31098.831      6.0398583    
+     38000   418.56112      33456.954      6.0398583    
+     39000   408.30885      33506.871      6.0398583    
+     40000   402.16594      33107.9        6.0398583    
+     41000   431.68957      32569.873      6.0398583    
+     42000   423.07407      33904.574      6.0398583    
+     43000   414.19393      33199.647      6.0398583    
+     44000   438.29709      33618.03       6.0398583    
+     45000   434.85296      33379.078      6.0398583    
+     46000   434.08262      34178.678      6.0398583    
+     47000   404.28261      33255.505      6.0398583    
+     48000   420.26971      32605.453      6.0398583    
+     49000   411.78472      33320.711      6.0398583    
+     50000   411.46684      33574.157      6.0398583    
+     51000   396.43824      33088.284      6.0398583    
+     52000   404.74688      32931.343      6.0398583    
+     53000   435.18226      33442.771      6.0398583    
+     54000   431.28924      33379.063      6.0398583    
+     55000   425.28047      33093.076      6.0398583    
+     56000   433.75614      33479.345      6.0398583    
+     57000   416.8363       32469.437      6.0398583    
+     58000   444.79823      33031.891      6.0398583    
+     59000   416.14525      33165.978      6.0398583    
+     60000   418.39144      33268.057      6.0398583    
+     61000   420.18328      33177.778      6.0398583    
+     62000   444.68454      33029.697      6.0398583    
+     63000   423.87017      32755.046      6.0398583    
+     64000   411.59798      34076.591      6.0398583    
+     65000   437.83938      33349.207      6.0398583    
+     66000   425.02256      32890.836      6.0398583    
+     67000   419.81076      33313.445      6.0398583    
+     68000   427.91712      33451.662      6.0398583    
+     69000   439.91531      32492.042      6.0398583    
+     70000   426.0717       33382.218      6.0398583    
+     71000   426.80968      32471.619      6.0398583    
+     72000   429.57998      32200.549      6.0398583    
+     73000   415.50746      33169.299      6.0398583    
+     74000   410.66257      33606.582      6.0398583    
+     75000   436.42554      34248.011      6.0398583    
+     76000   413.29392      32115.604      6.0398583    
+     77000   410.89601      32930.781      6.0398583    
+     78000   402.86252      32639.081      6.0398583    
+     79000   436.01463      33712.961      6.0398583    
+     80000   413.61564      32833.822      6.0398583    
+     81000   436.8324       32702.83       6.0398583    
+     82000   437.04716      33350.112      6.0398583    
+     83000   422.4627       32637.269      6.0398583    
+     84000   416.14241      32574.6        6.0398583    
+     85000   430.18709      33331.104      6.0398583    
+     86000   414.49554      33387.9        6.0398583    
+     87000   412.91615      32675.957      6.0398583    
+     88000   412.22465      32825.157      6.0398583    
+     89000   416.02669      33550.906      6.0398583    
+     90000   428.93894      33485.984      6.0398583    
+     91000   421.32844      32901.344      6.0398583    
+     92000   404.42613      33151.07       6.0398583    
+     93000   431.6149       33054.567      6.0398583    
+     94000   430.37365      33202.265      6.0398583    
+     95000   431.92484      33469.765      6.0398583    
+     96000   441.36979      33487.316      6.0398583    
+     97000   421.2695       33007.71       6.0398583    
+     98000   420.00137      34421.071      6.0398583    
+     99000   427.02323      33380.226      6.0398583    
+    100000   434.33668      33867.945      6.0398583    
+Loop time of 66.7813 on 1 procs for 100000 steps with 1000 atoms
+
+Performance: 258.755 ns/day, 0.093 hours/ns, 1497.425 timesteps/s, 1.497 Matom-step/s
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 1.3986     | 1.3986     | 1.3986     |   0.0 |  2.09
+Neigh   | 8.0435     | 8.0435     | 8.0435     |   0.0 | 12.04
+Comm    | 0.85843    | 0.85843    | 0.85843    |   0.0 |  1.29
+Output  | 0.015816   | 0.015816   | 0.015816   |   0.0 |  0.02
+Modify  | 53.817     | 53.817     | 53.817     |   0.0 | 80.59
+Other   |            | 2.648      |            |       |  3.97
+
+Nlocal:           1000 ave        1000 max        1000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7598 ave        7598 max        7598 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         446078 ave      446078 max      446078 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:       601768 ave      601768 max      601768 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 601768
+Ave neighs/atom = 601.768
+Neighbor list builds = 1560
+Dangerous builds = 0
+Total wall time: 0:01:25
