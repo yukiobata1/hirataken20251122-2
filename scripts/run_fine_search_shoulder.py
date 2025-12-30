@@ -17,8 +17,8 @@ TEMP = 423.15
 SIGMA_RATIO_GA1 = 1.1  # Ga1-Ga1: 2.97 A
 SIGMA_RATIO_GA2 = 0.9  # Ga2-Ga2: 2.43 A
 
-# Fine search grid around sigma12=1.20, Ga1=50%
-SIGMA12_RATIOS = [1.17, 1.18, 1.19, 1.20, 1.21, 1.22, 1.23]
+# Fine search grid around sigma12=1.15, Ga1=50%
+SIGMA12_RATIOS = [1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18]
 GA1_FRACTIONS = [0.45, 0.48, 0.50, 0.52, 0.55]
 
 LMP_CMD = "lmp -k on g 1 -sf kk"
