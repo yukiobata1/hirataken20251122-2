@@ -5,6 +5,8 @@
 # Ga1-Ga2 sigma = 3.1590 A (x1.17)
 # Epsilon = 0.4300 kcal/mol
 
+package         kokkos neigh full newton off
+
 units           real
 atom_style      atomic
 boundary        p p p
@@ -14,7 +16,7 @@ read_data       inputs/data.ga_base_2types
 set             group all type 1
 set             group all type/fraction 2 0.45 18495
 
-pair_style      lj/cut 12.0
+pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 0.4300 2.9700
 pair_coeff      2 2 0.4300 2.4300
 pair_coeff      1 2 0.4300 3.1590
