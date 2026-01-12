@@ -29,10 +29,11 @@ N_ATOMS = 4000      # Number of atoms
 LMP_CMD = "lmp -k on g 1 -sf kk"
 
 # Paths (relative to experiments/01_single_component/)
-SCRIPT_DIR = Path(__file__).parent
+SCRIPT_DIR = Path(__file__).resolve().parent
 BASE_DIR = SCRIPT_DIR.parent
+PROJECT_ROOT = BASE_DIR.parent.parent  # hirataken20251122-2/
 OUTPUT_DIR = BASE_DIR / "outputs" / "423K"
-INPUT_DIR = Path("/home/yuki/lammps_settings_obata/hirataken20251122-2/inputs")
+DATA_DIR = PROJECT_ROOT / "data" / "lammps_inputs"
 # ================================================
 
 
@@ -52,7 +53,7 @@ atom_style      atomic
 boundary        p p p
 
 # ========== Read structure ==========
-read_data       {INPUT_DIR}/data.ga_1000
+read_data       {DATA_DIR}/data.ga_1000
 
 # ========== Force field ==========
 # Single-component LJ: σ = {SIGMA} Å, ε = {EPSILON} kcal/mol

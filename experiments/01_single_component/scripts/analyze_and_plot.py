@@ -15,11 +15,12 @@ from pathlib import Path
 from io import StringIO
 
 # ================= CONFIGURATION =================
-SCRIPT_DIR = Path(__file__).parent
+SCRIPT_DIR = Path(__file__).resolve().parent
 BASE_DIR = SCRIPT_DIR.parent
+PROJECT_ROOT = BASE_DIR.parent.parent  # hirataken20251122-2/
 OUTPUT_DIR = BASE_DIR / "outputs" / "423K"
-DATA_DIR = Path("/home/yuki/lammps_settings_obata/data/experimental")
-THESIS_FIG_DIR = Path("/home/yuki/lammps_settings_obata/thesis/figures")
+DATA_DIR = PROJECT_ROOT / "data" / "experimental"
+THESIS_FIG_DIR = PROJECT_ROOT.parent / "thesis" / "figures"  # Outside project root
 
 # Number density for Ga at 150°C (atoms/Å³)
 RHO = 0.0522
