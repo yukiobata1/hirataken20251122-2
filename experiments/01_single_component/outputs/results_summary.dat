@@ -1,0 +1,19 @@
+=========================================
+Results at 293K:
+  Temperature: 292.993390591944 K
+  Density:     6.11366097359989 g/cm^3
+  Pressure:    228.941053135187 bar
+  PE/atom:     -2.7870078845678518675 eV
+ 
+Results at 600K:
+  Temperature: 600.027040842847 K
+  Density:     5.89809686729246 g/cm^3
+  Pressure:    -152.705148676465 bar
+  PE/atom:     -2.7408179142500093128 eV
+ 
+Results at 1000K:
+  Temperature: 998.38804644192 K
+  Density:     5.64133364052891 g/cm^3
+  Pressure:    -359.791510006345 bar
+  PE/atom:     -2.6868664347709163565 eV
+ 

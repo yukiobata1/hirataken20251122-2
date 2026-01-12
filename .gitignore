@@ -1,6 +1,8 @@
 # LAMMPS related
 lammps/
 nohup.out
+*.prn
+dump_293K.prn
 # Output files
 outputs/*.lammpstrj
 outputs/*.data
