@@ -1,0 +1,6 @@
+Single-component LJ at 423 K
+R-factor: 0.064233
+RMSE: 0.097768
+Shoulder RMSE: 0.203948
+g(r) peak: Sim=2.882, Exp=2.727
+S(Q) peak: Sim=2.218, Exp=2.102
