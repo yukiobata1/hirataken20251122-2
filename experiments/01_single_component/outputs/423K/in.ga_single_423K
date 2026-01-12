@@ -1,0 +1,86 @@
+# Single-component Ga LJ simulation at 423.15 K (150°C)
+# For thesis comparison with experimental data
+# Parameters: σ = 2.7 Å, ε = 0.43 kcal/mol
+
+# ========== KOKKOS Initialization ==========
+package         kokkos neigh full newton off
+
+# ========== Initialization ==========
+units           real
+atom_style      atomic
+boundary        p p p
+
+# ========== Read structure ==========
+read_data       /lambda/nfs/hirataken-20251212/hirataken20251122-2/data/lammps_inputs/data.ga_1000
+
+# ========== Force field ==========
+# Single-component LJ: σ = 2.7 Å, ε = 0.43 kcal/mol
+pair_style      lj/cut/kk 12.0
+pair_coeff      1 1 0.4300 2.7000
+
+# ========== Settings ==========
+mass            1 69.723    # Ga atomic mass
+
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+
+# ========== Initial velocity ==========
+velocity        all create 423.15 42315 dist gaussian
+
+# ========== Thermodynamic output ==========
+thermo          1000
+thermo_style    custom step temp pe ke etotal press vol density
+
+# ========== Minimization ==========
+print "========== Energy Minimization =========="
+minimize        1.0e-4 1.0e-6 10000 100000
+reset_timestep  0
+
+# ========== Equilibration (NVT) ==========
+print "========== Equilibration =========="
+
+# Start with small timestep
+timestep        0.5
+fix             nvt all nvt temp 423.15 423.15 100.0
+run             10000
+unfix           nvt
+
+# Increase timestep
+timestep        2.0
+fix             nvt all nvt temp 423.15 423.15 100.0
+run             40000
+unfix           nvt
+reset_timestep  0
+
+# ========== Production (NVT) ==========
+print "========== Production run =========="
+
+fix             nvt all nvt temp 423.15 423.15 100.0
+
+# RDF computation (200 bins, cutoff 12 Å)
+compute         myrdf all rdf 200 1 1 cutoff 12.0
+fix             rdfout all ave/time 100 1000 100000 c_myrdf[*] file /lambda/nfs/hirataken-20251212/hirataken20251122-2/experiments/01_single_component/outputs/423K/ga_single_423K.rdf mode vector
+
+# Trajectory output (optional, comment out to save space)
+# dump            1 all custom 10000 /lambda/nfs/hirataken-20251212/hirataken20251122-2/experiments/01_single_component/outputs/423K/ga_single_423K.lammpstrj id type x y z
+
+run             100000
+unfix           nvt
+
+# ========== Finalize ==========
+print "========== Simulation completed =========="
+
+variable        density_final equal density
+variable        temp_final equal temp
+variable        press_final equal press
+
+print "========================================="
+print "RESULTS:"
+print "  Temperature: ${temp_final} K"
+print "  Density:     ${density_final} g/cm^3"
+print "  Pressure:    ${press_final} bar"
+print "  Sigma:       2.7 A"
+print "  Epsilon:     0.43 kcal/mol"
+print "========================================="
+
+write_data      /lambda/nfs/hirataken-20251212/hirataken20251122-2/experiments/01_single_component/outputs/423K/ga_single_423K_final.data
