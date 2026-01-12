@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #F8F9F9; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header { background: #1C2833; padding: 10pt 30pt; }
+.header h1 { color: #ffffff; font-size: 18pt; margin: 0; }
+.content { padding: 10pt 20pt; display: flex; gap: 15pt; }
+.left { width: 170pt; }
+.right { flex: 1; display: flex; justify-content: center; align-items: center; }
+h2 { color: #1C2833; font-size: 11pt; margin: 0 0 6pt 0; }
+.result-box { background: #ffffff; padding: 5pt 8pt; border: 1pt solid #BDC3C7; border-radius: 4pt; margin-bottom: 5pt; }
+.result-row { display: flex; justify-content: space-between; margin-bottom: 2pt; }
+.result-label { color: #7F8C8D; font-size: 9pt; }
+.result-value { color: #1C2833; font-size: 9pt; font-weight: bold; }
+.best { background: #E8F6F3; }
+.best .result-value { color: #16A085; }
+.image-placeholder { width: 320pt; height: 280pt; background: #cccccc; }
+</style>
+</head>
+<body>
+<div class="header"><h1>結果: 最適フィッティング</h1></div>
+<div class="content">
+  <div class="left">
+    <h2>最適パラメータ</h2>
+    <div class="result-box">
+      <div class="result-row">
+        <p class="result-label">シグマ12</p>
+        <p class="result-value">1.17倍 (3.159 A)</p>
+      </div>
+      <div class="result-row">
+        <p class="result-label">Ga1割合</p>
+        <p class="result-value">45%</p>
+      </div>
+      <div class="result-row">
+        <p class="result-label">Ga2割合</p>
+        <p class="result-value">55%</p>
+      </div>
+    </div>
+    <h2>評価結果</h2>
+    <div class="result-box best">
+      <div class="result-row">
+        <p class="result-label">R因子</p>
+        <p class="result-value">0.0580</p>
+      </div>
+    </div>
+    <div class="result-box">
+      <div class="result-row">
+        <p class="result-label">RMSE</p>
+        <p class="result-value">0.0715</p>
+      </div>
+    </div>
+    <div class="result-box best">
+      <div class="result-row">
+        <p class="result-label">RMSE肩領域</p>
+        <p class="result-value">0.0259</p>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div id="chart1" class="placeholder image-placeholder"></div>
+  </div>
+</div>
+</body>
+</html>

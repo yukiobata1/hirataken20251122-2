@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #F8F9F9; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header { background: #1C2833; padding: 15pt 30pt; }
+.header h1 { color: #ffffff; font-size: 22pt; margin: 0; }
+.content { padding: 20pt 35pt; flex: 1; display: flex; gap: 25pt; }
+.left { flex: 1; }
+.right { flex: 1; }
+h2 { color: #1C2833; font-size: 15pt; margin: 0 0 12pt 0; }
+p { color: #2C3E50; font-size: 12pt; margin: 0 0 10pt 0; line-height: 1.4; }
+.box { background: #ffffff; padding: 12pt; border: 1pt solid #BDC3C7; border-radius: 4pt; margin-bottom: 12pt; }
+.box-title { color: #16A085; font-size: 13pt; font-weight: bold; margin: 0 0 8pt 0; }
+.param { color: #2C3E50; font-size: 11pt; margin: 0 0 5pt 0; }
+.table-row { display: flex; border-bottom: 1pt solid #EAECEE; padding: 6pt 0; }
+.table-header { background: #1C2833; color: #ffffff; font-size: 11pt; padding: 8pt; display: flex; }
+.table-cell { flex: 1; font-size: 11pt; color: #2C3E50; }
+.table-cell-h { flex: 1; font-size: 11pt; }
+</style>
+</head>
+<body>
+<div class="header"><h1>手法: 2元モデルの設計</h1></div>
+<div class="content">
+  <div class="left">
+    <div class="box">
+      <p class="box-title">Ga1 (タイプ1)</p>
+      <p class="param">シグマ = 2.97 A (1.1倍基準)</p>
+      <p class="param">コンパクトな局所構造</p>
+    </div>
+    <div class="box">
+      <p class="box-title">Ga2 (タイプ2)</p>
+      <p class="param">シグマ = 2.43 A (0.9倍基準)</p>
+      <p class="param">開かれた局所構造</p>
+    </div>
+    <p>基準シグマ = 2.70 A</p>
+    <p>イプシロン = 0.430 kcal/mol (共通)</p>
+  </div>
+  <div class="right">
+    <h2>シミュレーション条件</h2>
+    <div class="table-header">
+      <p class="table-cell-h">パラメータ</p>
+      <p class="table-cell-h">値</p>
+    </div>
+    <div class="table-row">
+      <p class="table-cell">温度</p>
+      <p class="table-cell">423.15 K (150度C)</p>
+    </div>
+    <div class="table-row">
+      <p class="table-cell">原子数</p>
+      <p class="table-cell">1000</p>
+    </div>
+    <div class="table-row">
+      <p class="table-cell">数密度</p>
+      <p class="table-cell">0.0522 原子/A3</p>
+    </div>
+    <div class="table-row">
+      <p class="table-cell">平衡化</p>
+      <p class="table-cell">50,000 ステップ</p>
+    </div>
+    <div class="table-row">
+      <p class="table-cell">本番計測</p>
+      <p class="table-cell">100,000 ステップ</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

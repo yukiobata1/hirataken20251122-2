@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #F8F9F9; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header { background: #1C2833; padding: 12pt 30pt; }
+.header h1 { color: #ffffff; font-size: 20pt; margin: 0; }
+.content { padding: 12pt 20pt; flex: 1; display: flex; gap: 15pt; }
+.left { width: 170pt; }
+.right { flex: 1; display: flex; justify-content: center; align-items: center; }
+h2 { color: #1C2833; font-size: 12pt; margin: 0 0 8pt 0; }
+.stat-box { background: #ffffff; padding: 5pt 8pt; border: 1pt solid #BDC3C7; border-radius: 4pt; margin-bottom: 6pt; }
+.stat-row { display: flex; justify-content: space-between; }
+.stat-label { color: #7F8C8D; font-size: 9pt; }
+.stat-value { color: #1C2833; font-size: 10pt; font-weight: bold; }
+p { color: #2C3E50; font-size: 10pt; margin: 0 0 6pt 0; }
+.conclusion-box { background: #E8F6F3; padding: 8pt; border-radius: 4pt; margin-top: 8pt; }
+.conclusion-box p { color: #1C2833; font-size: 9pt; margin: 0; }
+.image-placeholder { width: 330pt; height: 260pt; background: #cccccc; }
+</style>
+</head>
+<body>
+<div class="header"><h1>ボロノイ解析</h1></div>
+<div class="content">
+  <div class="left">
+    <h2>局所構造統計</h2>
+    <div class="stat-box">
+      <div class="stat-row">
+        <p class="stat-label">平均配位数</p>
+        <p class="stat-value">15.10</p>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-row">
+        <p class="stat-label">原子体積</p>
+        <p class="stat-value">13.41 A3</p>
+      </div>
+    </div>
+    <h2>主要多面体</h2>
+    <div class="stat-box">
+      <div class="stat-row">
+        <p class="stat-label">&lt;0,0,0,3,6,4&gt;</p>
+        <p class="stat-value">3.5%</p>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-row">
+        <p class="stat-label">&lt;0,0,0,2,8,4&gt;</p>
+        <p class="stat-value">2.8%</p>
+      </div>
+    </div>
+    <div class="conclusion-box">
+      <p>Ga1/Ga2で異なる局所環境を確認。双峰体積分布が肩構造の起源を支持。</p>
+    </div>
+  </div>
+  <div class="right">
+    <div id="chart3" class="placeholder image-placeholder"></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #1C2833; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.wrapper { padding: 30pt 40pt; }
+h1 { color: #ffffff; font-size: 22pt; margin: 0 0 20pt 0; }
+.result-grid { display: flex; gap: 15pt; margin-bottom: 25pt; }
+.result-card { background: #2E4053; padding: 15pt; border-radius: 6pt; flex: 1; text-align: center; }
+.result-number { color: #16A085; font-size: 24pt; font-weight: bold; margin: 0 0 6pt 0; }
+.result-label { color: #AED6F1; font-size: 11pt; margin: 0; }
+.conclusions { background: #34495E; padding: 15pt; border-radius: 6pt; }
+ul { color: #ffffff; font-size: 12pt; margin: 0; padding-left: 18pt; }
+li { margin-bottom: 8pt; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<h1>結論</h1>
+<div class="result-grid">
+  <div class="result-card">
+    <p class="result-number">0.058</p>
+    <p class="result-label">R因子</p>
+  </div>
+  <div class="result-card">
+    <p class="result-number">1.17倍</p>
+    <p class="result-label">最適シグマ12</p>
+  </div>
+  <div class="result-card">
+    <p class="result-number">45%</p>
+    <p class="result-label">Ga1割合</p>
+  </div>
+</div>
+<div class="conclusions">
+  <ul>
+    <li>2元LJモデルで液体Gaの肩構造を高精度で再現</li>
+    <li>肩領域のRMSE = 0.026と極めて良好な一致</li>
+    <li>ボロノイ解析により2つの局所環境の共存を確認</li>
+  </ul>
+</div>
+</div>
+</body>
+</html>

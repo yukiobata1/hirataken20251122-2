@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #F8F9F9; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header { background: #1C2833; padding: 15pt 30pt; }
+.header h1 { color: #ffffff; font-size: 22pt; margin: 0; }
+.content { padding: 20pt 35pt; flex: 1; display: flex; gap: 30pt; }
+.left { flex: 1; }
+.right { flex: 1.2; }
+h2 { color: #1C2833; font-size: 15pt; margin: 0 0 15pt 0; }
+p { color: #2C3E50; font-size: 12pt; margin: 0 0 10pt 0; }
+.grid-box { background: #ffffff; padding: 15pt; border: 1pt solid #BDC3C7; border-radius: 4pt; margin-bottom: 15pt; }
+.metric-box { background: #E8F6F3; padding: 12pt; border-radius: 4pt; margin-bottom: 10pt; }
+.metric-title { color: #16A085; font-size: 12pt; font-weight: bold; margin: 0 0 5pt 0; }
+.metric-desc { color: #2C3E50; font-size: 11pt; margin: 0; }
+ul { color: #2C3E50; font-size: 12pt; margin: 0; padding-left: 18pt; }
+li { margin-bottom: 6pt; }
+.total { color: #1C2833; font-size: 14pt; font-weight: bold; margin-top: 15pt; }
+</style>
+</head>
+<body>
+<div class="header"><h1>グリッドサーチ</h1></div>
+<div class="content">
+  <div class="left">
+    <h2>探索パラメータ</h2>
+    <div class="grid-box">
+      <p><b>シグマ12比 (Ga1-Ga2相互作用)</b></p>
+      <ul>
+        <li>1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18</li>
+      </ul>
+      <p><b>Ga1割合</b></p>
+      <ul>
+        <li>45%, 48%, 50%, 52%, 55%</li>
+      </ul>
+    </div>
+    <p class="total">計35シミュレーション実行</p>
+  </div>
+  <div class="right">
+    <h2>評価指標</h2>
+    <div class="metric-box">
+      <p class="metric-title">R因子</p>
+      <p class="metric-desc">S(Q)全体の一致度を評価</p>
+    </div>
+    <div class="metric-box">
+      <p class="metric-title">RMSE (Q = 1.5-5.0 A-1)</p>
+      <p class="metric-desc">ピーク領域での二乗平均平方根誤差</p>
+    </div>
+    <div class="metric-box">
+      <p class="metric-title">RMSE肩領域 (Q = 2.8-3.5 A-1)</p>
+      <p class="metric-desc">肩領域に特化した評価指標</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
