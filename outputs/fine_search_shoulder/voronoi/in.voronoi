@@ -1,5 +1,7 @@
 # Voronoi Analysis Run
 # Best fit: Ga1=0.45, sigma12=1.17x
+# Ga1 (Type 1) = Large sigma = 45%
+# Ga2 (Type 2) = Small sigma = 55%
 # Ga1-Ga1 sigma = 2.9700 A (x1.1)
 # Ga2-Ga2 sigma = 2.4300 A (x0.9)
 # Ga1-Ga2 sigma = 3.1590 A (x1.17)
@@ -14,7 +16,7 @@ boundary        p p p
 read_data       inputs/data.ga_base_2types
 
 set             group all type 1
-set             group all type/fraction 2 0.45 18495
+set             group all type/fraction 2 0.55 18015
 
 pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 0.4300 2.9700

@@ -37,8 +37,13 @@ def create_input_file(output_dir: Path, params: dict) -> Path:
     sigma_ga2 = BASE_SIGMA_GA2 * SIGMA_GA2_FACTOR
     sigma_ga12 = BASE_SIGMA_GA1 * sig12
 
+    # Type 2 の割合 = 1 - ga1_frac (Ga1がType 1, Ga2がType 2)
+    type2_frac = 1 - ga1_frac
+
     input_content = f"""# Voronoi Analysis Run
 # Best fit: Ga1={ga1_frac}, sigma12={sig12}x
+# Ga1 (Type 1) = Large sigma = {ga1_frac*100:.0f}%
+# Ga2 (Type 2) = Small sigma = {type2_frac*100:.0f}%
 # Ga1-Ga1 sigma = {sigma_ga1:.4f} A (x{SIGMA_GA1_FACTOR})
 # Ga2-Ga2 sigma = {sigma_ga2:.4f} A (x{SIGMA_GA2_FACTOR})
 # Ga1-Ga2 sigma = {sigma_ga12:.4f} A (x{sig12})
@@ -53,7 +58,7 @@ boundary        p p p
 read_data       {DATA_FILE}
 
 set             group all type 1
-set             group all type/fraction 2 {ga1_frac} 18495
+set             group all type/fraction 2 {type2_frac:.2f} 18015
 
 pair_style      lj/cut/kk 12.0
 pair_coeff      1 1 {EPSILON:.4f} {sigma_ga1:.4f}
